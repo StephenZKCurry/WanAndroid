@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">WanAndroid</string>
+    <string name="app_name">玩Android</string>
+
+    <!--首页-->
+    <string name="main_alert_back">再按一次退出程序</string>
+
+    <string name="no_network_connection">网络连接不可用,请检查网络设置・・・</string>
 </resources>

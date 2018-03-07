@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_item_home"
+        android:icon="@drawable/ic_vector_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/menu_item_knowledgesystem"
+        android:icon="@drawable/ic_vector_dashboard"
+        android:title="@string/title_knowledgesystem" />
+
+    <item
+        android:id="@+id/menu_item_navigation"
+        android:icon="@drawable/ic_vector_pets"
+        android:title="@string/title_navigation" />
+
+    <item
+        android:id="@+id/menu_item_project"
+        android:icon="@drawable/ic_vector_folder"
+        android:title="@string/title_project" />
+</menu>

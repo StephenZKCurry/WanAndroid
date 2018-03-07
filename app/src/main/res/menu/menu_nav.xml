@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_person"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/group_item_home"
+            android:icon="@drawable/ic_vector_home"
+            android:title="@string/title_home" />
+        <item
+            android:id="@+id/group_item_history"
+            android:icon="@drawable/ic_vector_history"
+            android:title="@string/item_history" />
+        <item
+            android:id="@+id/group_item_collection"
+            android:icon="@drawable/ic_vector_collection"
+            android:title="@string/item_collection" />
+    </group>
+
+    <group
+        android:id="@+id/group_other"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/group_item_github"
+            android:icon="@drawable/ic_vector_github"
+            android:title="@string/item_github" />
+        <item
+            android:id="@+id/group_item_share_project"
+            android:icon="@drawable/ic_vector_share"
+            android:title="@string/item_share_project" />
+        <item
+            android:id="@+id/group_item_setting"
+            android:icon="@drawable/ic_vetor_setting"
+            android:title="@string/item_setting" />
+        <item
+            android:id="@+id/group_item_about"
+            android:icon="@drawable/ic_vector_about"
+            android:title="@string/item_about" />
+    </group>
+</menu>

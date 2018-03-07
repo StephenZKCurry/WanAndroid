@@ -6,4 +6,16 @@ package com.zk.wanandroid.utils;
  * @date: 2018/2/27 13:29
  */
 public class Constant {
+
+    // 请求基地址
+    public static final String BASE_URL = "http://wanandroid.com/";
+
+    // 每页数量
+    public static final int PAGE_SIZE = 20;
+
+    // 加载数据类型
+    public static final int TYPE_REFRESH_SUCCESS = 1;
+    public static final int TYPE_REFRESH_ERROR = 2;
+    public static final int TYPE_LOAD_MORE_SUCCESS = 3;
+    public static final int TYPE_LOAD_MORE_ERROR = 4;
 }

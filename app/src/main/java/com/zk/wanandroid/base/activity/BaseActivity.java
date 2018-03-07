@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.zk.wanandroid.R;
 import com.zk.wanandroid.manager.AppManager;
+import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.SystemStatusManager;
 import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
@@ -21,7 +23,7 @@ import butterknife.ButterKnife;
  * @author: zhukai
  * @date: 2018/3/2 11:46
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
     protected WaitPorgressDialog mWaitPorgressDialog;
@@ -35,6 +37,10 @@ public class BaseActivity extends AppCompatActivity {
         mContext = this;
         TAG = getClass().getSimpleName();
         Log.d(TAG, "onCreate()");
+        setContentView(getContentViewId());
+        initView();
+        initData();
+        initEvent();
     }
 
     @Override
@@ -75,12 +81,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 设置布局资源id
+     *
+     * @return
+     */
+    protected abstract int getContentViewId();
+
+    /**
      * 初始化页面
      */
     protected void initView() {
         ButterKnife.bind(this);
         // 设置透明状态栏
-        new SystemStatusManager(this).setTranslucentStatus(R.color.transparent);
+//        new SystemStatusManager(this).setTranslucentStatus(R.color.transparent);
         initToolBar();
     }
 
@@ -121,6 +134,29 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected boolean showHomeAsUp() {
         return false;
+    }
+
+    /**
+     * 点击toolbar返回
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                ActivityUtils.finishActivity(mContext);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    finishAfterTransition();
+//                } else {
+//                    finish();
+//                }
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     /**

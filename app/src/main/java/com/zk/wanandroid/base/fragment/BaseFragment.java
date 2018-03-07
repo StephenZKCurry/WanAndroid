@@ -52,7 +52,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 设置根布局资源id
+     * 设置布局资源id
      *
      * @return
      */

@@ -40,4 +40,9 @@
         <item name="android:background">@null</item>
     </style>
 
+    <!-- toolbar标题样式 -->
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
 </resources>

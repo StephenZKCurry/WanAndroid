@@ -10,46 +10,80 @@ import android.view.ViewGroup;
 import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
+import butterknife.ButterKnife;
+
 /**
  * @description: 懒加载Fragmernt
  * @author: zhukai
  * @date: 2018/3/3 13:04
  */
-
-/**
- * 若把初始化内容放到initData实现,就是采用Lazy方式加载的Fragment
- * 若不需要Lazy加载则initData方法内留空,初始化内容放到initViews即可
- * -注1: 如果是与ViewPager一起使用，调用的是setUserVisibleHint
- * 可以调用mViewPager.setOffscreenPageLimit(size),若设置了该属性 则viewpager会缓存指定数量的Fragment
- * -注2: 如果是通过FragmentTransaction的show和hide的方法来控制显示，调用的是onHiddenChanged.
- * -注3: 针对初始就show的Fragment，为了触发onHiddenChanged事件达到lazy效果需要先hide再show
- */
 public abstract class LazyFragment extends Fragment {
 
+    /**
+     * 说明：
+     * 若把初始化内容放到initData实现,就是采用Lazy方式加载的Fragment
+     * 若不需要Lazy加载则initData方法内留空,初始化内容放到initViews即可
+     * 注1: 如果是与ViewPager一起使用，调用的是setUserVisibleHint
+     * 可以调用mViewPager.setOffscreenPageLimit(size),若设置了该属性，则viewpager会缓存指定数量的Fragment
+     * 注2: 如果是通过FragmentTransaction的show和hide的方法来控制显示，调用的是onHiddenChanged
+     * 注3: 针对初始就show的Fragment，为了触发onHiddenChanged事件达到lazy效果需要先hide再show
+     */
     protected String title; // 标题
     protected String typeId; // 类型
     private boolean isVisible;  // 是否可见状态
-    private boolean isPrepared; // 标志位，View已经初始化完成。
+    private boolean isPrepared; // 标志位，View已经初始化完成
     private boolean isFirstLoad = true; // 是否第一次加载
-    protected LayoutInflater inflater;
     protected Context mContext;
     protected WaitPorgressDialog mWaitPorgressDialog;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        isFirstLoad = true;
-        isPrepared = true;
-        this.inflater = inflater;
-        View view = initView(inflater, container, savedInstanceState);
-        mWaitPorgressDialog = new WaitPorgressDialog(mContext);
-        lazyLoad();
-        return view;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        isFirstLoad = true;
+        isPrepared = true;
+        View view = inflater.inflate(getContentViewId(), null);
+        initView(view);
+        return view;
+    }
+
+    /**
+     * 设置布局资源id
+     *
+     * @return
+     */
+    protected abstract int getContentViewId();
+
+    /**
+     * 初始化页面
+     */
+    protected void initView(View view) {
+        ButterKnife.bind(this, view);
+    }
+
+    /**
+     * 初始化数据
+     */
+    protected void initData() {
+        mWaitPorgressDialog = new WaitPorgressDialog(mContext);
+    }
+
+    /**
+     * 初始化事件
+     */
+    protected void initEvent() {
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setSubId(String subId) {
+        this.typeId = subId;
     }
 
     /**
@@ -73,7 +107,7 @@ public abstract class LazyFragment extends Fragment {
 
     /**
      * 如果是通过FragmentTransaction的show和hide的方法来控制显示，调用的是onHiddenChanged.
-     * 若是初始就show的Fragment 为了触发该事件 需要先hide再show
+     * 若是初始就show的Fragment为了触发该事件需要先hide再show
      */
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -100,20 +134,7 @@ public abstract class LazyFragment extends Fragment {
         }
         isFirstLoad = false;
         initData();
-    }
-
-    protected abstract View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
-
-    protected void initData() {
-
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setSubId(String subId) {
-        this.typeId = subId;
+        initEvent();
     }
 
     /**

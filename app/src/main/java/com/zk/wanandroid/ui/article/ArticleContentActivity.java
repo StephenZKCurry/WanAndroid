@@ -52,6 +52,8 @@ public class ArticleContentActivity extends BaseMVPActivity<ArticleContentContra
     @Override
     protected void initView() {
         super.initView();
+        // mToolbar.setTitle()无效，放在onResume()中才生效
+        getSupportActionBar().setTitle("跳转中...");
         webViewFragment = new WebViewFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl_container, webViewFragment, WebViewFragment.class.getName()).commit();

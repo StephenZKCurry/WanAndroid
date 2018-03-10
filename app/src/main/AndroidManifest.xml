@@ -30,6 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 登录页面 -->
+        <activity
+            android:name=".ui.mine.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <!-- 主页面 -->
         <activity
             android:name=".ui.MainActivity"
@@ -38,6 +43,14 @@
         <!-- 文章详情页面 -->
         <activity
             android:name=".ui.article.ArticleContentActivity"
+            android:screenOrientation="portrait" />
+        <!-- 常用网站页面 -->
+        <activity
+            android:name=".ui.hotsearch.CommonWebActivity"
+            android:screenOrientation="portrait" />
+        <!-- 搜索文章页面 -->
+        <activity
+            android:name=".ui.hotsearch.SearchActivity"
             android:screenOrientation="portrait" />
     </application>
 

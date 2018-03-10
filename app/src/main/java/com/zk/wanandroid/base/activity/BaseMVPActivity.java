@@ -83,7 +83,7 @@ public abstract class BaseMVPActivity<P extends BasePresenter, M extends IBaseMo
      */
     @Override
     public void showFaild(String message) {
-        showToast(message);
+        showToast(getString(R.string.request_error));
     }
 
     /**

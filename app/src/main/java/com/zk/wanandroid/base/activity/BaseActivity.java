@@ -92,8 +92,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void initView() {
         ButterKnife.bind(this);
-        // 设置透明状态栏
-//        new SystemStatusManager(this).setTranslucentStatus(R.color.transparent);
         initToolBar();
     }
 

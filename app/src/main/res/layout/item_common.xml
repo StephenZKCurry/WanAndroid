@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_5">
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_title"
+        style="@style/textview_default"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_5"
+        android:textSize="@dimen/sp_14"
+        rv:rv_backgroundColor="@color/color_white"
+        rv:rv_cornerRadius="@dimen/dp_20"
+        rv:rv_isRippleEnable="true"
+        rv:rv_strokeColor="@color/color_divider"
+        rv:rv_strokeWidth="1dp"
+        tools:text="常用网站" />
+
+</LinearLayout>

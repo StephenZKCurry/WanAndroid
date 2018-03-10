@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
@@ -15,6 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.zk.wanandroid.db'
+        targetGenDir 'src/main/java'
     }
     allprojects {
         repositories {
@@ -58,10 +64,16 @@ dependencies {
     // ButterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    // PhotoView，支持图片缩放旋转
-    implementation 'com.bm.photoview:library:1.4.1'
     // RecyclerView适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.15'
+    // GreenDao数据库
+    implementation 'org.greenrobot:greendao:3.2.0'
     // banner轮播
     implementation 'com.youth.banner:banner:1.4.9'
+    // 流式布局
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    // 圆角矩形控件背景
+    implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    // MD风格的Dialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
 }

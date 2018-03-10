@@ -30,17 +30,36 @@ public class SystemStatusManager {
 
     Activity mContext;
 
+    /**
+     * 设置状态栏背景
+     *
+     * @param res
+     */
     public void setTranslucentStatus(int res) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 透明状态栏
             this.mContext.getWindow().addFlags(
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            this.mContext.getWindow().addFlags(
-//                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             SystemStatusManager tintManager = new SystemStatusManager(this.mContext);
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintResource(res);
-//            tintManager.setNavigationBarTintEnabled(true);
-//            tintManager.setNavigationBarTintResource(res);
+            this.mContext.getWindow().getDecorView().setFitsSystemWindows(true);
+        }
+    }
+
+    /**
+     * 设置导航栏背景
+     *
+     * @param res
+     */
+    public void setTranslucentNavigation(int res) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 透明导航栏
+            this.mContext.getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            SystemStatusManager tintManager = new SystemStatusManager(this.mContext);
+            tintManager.setNavigationBarTintEnabled(true);
+            tintManager.setNavigationBarTintResource(res);
             this.mContext.getWindow().getDecorView().setFitsSystemWindows(true);
         }
     }

@@ -1,8 +1,11 @@
 package com.zk.wanandroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +20,13 @@ import android.widget.Toast;
 import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.activity.BaseActivity;
 import com.zk.wanandroid.ui.home.HomeFragment;
+import com.zk.wanandroid.ui.hotsearch.CommonWebActivity;
+import com.zk.wanandroid.ui.hotsearch.SearchActivity;
 import com.zk.wanandroid.ui.knowledgesystem.KnowledgesystemFragment;
+import com.zk.wanandroid.ui.mine.LoginActivity;
 import com.zk.wanandroid.ui.navigation.NavigationFragment;
 import com.zk.wanandroid.ui.project.ProjectFragment;
+import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.NavigationUtils;
 import com.zk.wanandroid.utils.SystemStatusManager;
 import com.zk.wanandroid.widgets.helper.BottomNavigationViewHelper;
@@ -34,12 +41,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    @BindView(R.id.bnv_bar)
-    BottomNavigationView mBottomNavigationView;
     @BindView(R.id.dl_root)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nv_menu)
     NavigationView mNavigationView;
+    @BindView(R.id.bnv_bar)
+    BottomNavigationView mBottomNavigationView;
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBar;
+    @BindView(R.id.fab_hot)
+    FloatingActionButton mFloatingActionButton;
 
     private CircleImageView civ_head;
     private TextView tv_name;
@@ -95,7 +106,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 打开侧部菜单
+                // 打开侧滑菜单
                 if (!mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
@@ -180,7 +191,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+        // 动态显示和隐藏悬浮按钮
+        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (position == FRAGMENT_HOME) {
+                    mFloatingActionButton.setVisibility(View.VISIBLE);
+                    if (verticalOffset == 0) {
+                        mFloatingActionButton.show();
+                    } else {
+                        mFloatingActionButton.hide();
+                    }
+                } else {
+                    mFloatingActionButton.setVisibility(View.GONE);
+                }
+            }
+        });
+
         civ_head.setOnClickListener(this);
+        mFloatingActionButton.setOnClickListener(this);
     }
 
     private void showFragment(int index) {
@@ -259,7 +288,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_search) {
             // 跳转搜索页面
-
+            ActivityUtils.startActivity(mContext, new Intent(mContext, SearchActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -290,7 +319,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.civ_head:
                 // 跳转登录页面
-
+                ActivityUtils.startActivity(mContext, new Intent(mContext, LoginActivity.class));
+                break;
+            case R.id.fab_hot:
+                // 跳转常用网站页面
+                ActivityUtils.startActivity(mContext, new Intent(mContext, CommonWebActivity.class));
                 break;
             default:
                 break;

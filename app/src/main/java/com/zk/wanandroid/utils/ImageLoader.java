@@ -43,6 +43,7 @@ public class ImageLoader {
                 .load(url)
                 .centerCrop()
                 .crossFade()
+                .dontAnimate() // 使得图片在有占位图的同时下载并且实时显示出图片
                 .placeholder(R.mipmap.icon_default)
                 .into(imageView);
     }

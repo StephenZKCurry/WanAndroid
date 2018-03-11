@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/dp_5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/iv_project"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_10">
+
+            <LinearLayout
+                android:id="@+id/ll_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_author"
+                    android:layout_width="@dimen/dp_35"
+                    android:layout_height="@dimen/dp_35"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/icon_header" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/textview_default"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
+                    tools:text="开源音乐播放器" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_description"
+                style="@style/textview_default"
+                android:layout_below="@id/ll_title"
+                android:layout_marginTop="@dimen/dp_10"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textSize="@dimen/sp_12"
+                tools:text="音频播放器，基础播放功能有：播放，暂停，下一首，上一首；可以设置多种播放类型：顺序播放，随机播放，单曲循环；可以设置播放进度快慢，参考混沌大学APP；支持后台播放，可以扫描本地音频，有效处理了捕获/丢弃音频焦点逻辑，支持耳机线控。通知栏，底部音频播放控制栏，音频List页面和播放详情页数据同步。" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom">
+
+                <ImageView
+                    android:id="@+id/iv_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_vector_notlike" />
+
+                <TextView
+                    android:id="@+id/tv_download"
+                    style="@style/textview_default"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/iv_collect"
+                    android:text="安装"
+                    android:textColor="@color/color_main"
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/textview_default"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="一小时前" />
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    style="@style/textview_default"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toLeftOf="@id/tv_download"
+                    android:layout_toRightOf="@id/tv_date"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="作者" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

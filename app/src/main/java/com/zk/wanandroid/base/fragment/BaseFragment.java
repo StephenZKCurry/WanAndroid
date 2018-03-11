@@ -12,6 +12,7 @@ import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @description: 普通Fragment基类
@@ -23,6 +24,7 @@ public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     protected View mRootView;
     protected WaitPorgressDialog mWaitPorgressDialog;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,12 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
     /**
      * 设置布局资源id
      *
@@ -62,7 +70,7 @@ public abstract class BaseFragment extends Fragment {
      * 初始化页面
      */
     protected void initView(View view) {
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
     }
 
     /**

@@ -4,6 +4,8 @@ import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.HomeBanner;
+import com.zk.wanandroid.bean.KnowledgeSystem;
+import com.zk.wanandroid.bean.Project;
 
 import java.util.List;
 
@@ -67,4 +69,44 @@ public interface ApiService {
      */
     @POST("/article/query/{page}/json")
     Observable<DataResponse<Article>> getSearchArticles(@Path("page") int page, @Query("k") String key);
+
+    /**
+     * 知识体系
+     * http://www.wanandroid.com/tree/json
+     *
+     * @return
+     */
+    @GET("/tree/json")
+    Observable<DataResponse<List<KnowledgeSystem>>> getKnowledgeSystems();
+
+    /**
+     * 知识体系下的文章
+     * http://www.wanandroid.com/article/list/0/json?cid=60
+     *
+     * @param page 页码，从0开始
+     * @param cid  分类的id，即知识体系二级目录的id
+     * @return
+     */
+    @GET("/article/list/{page}/json")
+    Observable<DataResponse<Article>> getKnowledgeSystemsArticles(@Path("page") int page, @Query("cid") int cid);
+
+    /**
+     * 项目分类
+     * http://www.wanandroid.com/project/tree/json
+     *
+     * @return
+     */
+    @GET("/project/tree/json")
+    Observable<DataResponse<List<KnowledgeSystem>>> getProjectType();
+
+    /**
+     * 某一个分类下的项目列表
+     * http://www.wanandroid.com/project/list/1/json?cid=294
+     *
+     * @param page 页码，从1开始
+     * @param cid  项目分类的id
+     * @return
+     */
+    @GET("/project/list/{page}/json")
+    Observable<DataResponse<Project>> getProjectList(@Path("page") int page, @Query("cid") int cid);
 }

@@ -165,9 +165,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         // 显示主页
                         mBottomNavigationView.setSelectedItemId(R.id.menu_item_home);
                         break;
-                    case R.id.group_item_history:
-
-                        break;
+//                    case R.id.group_item_history:
+//
+//                        break;
                     case R.id.group_item_collection:
 
                         break;
@@ -236,6 +236,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (knowledgesystemFragment == null) {
                     knowledgesystemFragment = KnowledgesystemFragment.newInstance();
                     ft.add(R.id.fl_container, knowledgesystemFragment, KnowledgesystemFragment.class.getName());
+                    ft.hide(knowledgesystemFragment);
+                    ft.show(knowledgesystemFragment);
                 } else {
                     ft.show(knowledgesystemFragment);
                 }
@@ -244,6 +246,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (navigationFragment == null) {
                     navigationFragment = NavigationFragment.newInstance();
                     ft.add(R.id.fl_container, navigationFragment, NavigationFragment.class.getName());
+                    ft.hide(navigationFragment);
+                    ft.show(navigationFragment);
                 } else {
                     ft.show(navigationFragment);
                 }
@@ -252,6 +256,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (projectFragment == null) {
                     projectFragment = ProjectFragment.newInstance();
                     ft.add(R.id.fl_container, projectFragment, ProjectFragment.class.getName());
+                    ft.hide(projectFragment);
+                    ft.show(projectFragment);
                 } else {
                     ft.show(projectFragment);
                 }

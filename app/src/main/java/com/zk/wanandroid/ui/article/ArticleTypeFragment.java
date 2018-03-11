@@ -1,6 +1,5 @@
-package com.zk.wanandroid.ui.knowledgesystem;
+package com.zk.wanandroid.ui.article;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,40 +11,37 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.BasePresenter;
 import com.zk.wanandroid.base.fragment.BaseMVPFragment;
-import com.zk.wanandroid.bean.KnowledgeSystem;
-import com.zk.wanandroid.ui.article.ArticleTypeActivity;
-import com.zk.wanandroid.utils.ActivityUtils;
-
-import java.io.Serializable;
-import java.util.List;
+import com.zk.wanandroid.bean.Article;
+import com.zk.wanandroid.utils.Constant;
 
 import butterknife.BindView;
 
 /**
- * @description: 知识体系Fragment
+ * @description: 知识体系详情Fragment
  * @author: zhukai
- * @date: 2018/3/5 10:51
+ * @date: 2018/3/11 11:39
  */
-public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemContract.KnowledgesystemPresenter, KnowledgesystemContract.IKnowledgesystemModel>
-        implements KnowledgesystemContract.IKnowledgesystemView, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.ArticleTypePresenter, ArticleTypeContract.IArticleTypeModel>
+        implements ArticleTypeContract.IArticleTypeView, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener,
+        BaseQuickAdapter.OnItemClickListener {
 
-    @BindView(R.id.rv_knowledgesystem)
+    @BindView(R.id.rv_article)
     RecyclerView mRecyclerView;
-    @BindView(R.id.refresh_knowledgesystem)
+    @BindView(R.id.refresh_article)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private KnowledgesystemAdapter mAdapter;
+    private ArticleAdapter mAdapter; // 文章列表adapter
 
-    public static KnowledgesystemFragment newInstance() {
+    public static ArticleTypeFragment newInstance() {
         Bundle args = new Bundle();
-        KnowledgesystemFragment fragment = new KnowledgesystemFragment();
+        ArticleTypeFragment fragment = new ArticleTypeFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_knowledgesystem;
+        return R.layout.fragment_article_type;
     }
 
     /**
@@ -58,7 +54,7 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
         super.initView(view);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new KnowledgesystemAdapter(null);
+        mAdapter = new ArticleAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -68,7 +64,8 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
     @Override
     protected void initData() {
         super.initData();
-        onRefresh();
+        showRefreshView(true);
+        mPresenter.loadKnowledgesystemArticles(Integer.parseInt(typeId), 0);
     }
 
     /**
@@ -78,23 +75,14 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
     protected void initEvent() {
         super.initEvent();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mAdapter.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
     }
 
     @NonNull
     @Override
     public BasePresenter initPresenter() {
-        return KnowledgesystemPresenter.newInstance();
-    }
-
-    /**
-     * 显示知识体系
-     *
-     * @param knowledgeSystems
-     */
-    @Override
-    public void setKnowledgesystem(List<KnowledgeSystem> knowledgeSystems) {
-        mAdapter.setNewData(knowledgeSystems);
+        return ArticleTypePresenter.newInstance();
     }
 
     /**
@@ -120,12 +108,39 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
         mPresenter.refresh();
     }
 
+    /**
+     * 上拉加载
+     */
+    @Override
+    public void onLoadMoreRequested() {
+        mPresenter.loadMore();
+    }
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        // 跳转知识体系详情页面
-        Intent intent = new Intent(mContext, ArticleTypeActivity.class);
-        intent.putExtra(ArticleTypeActivity.ARTICLE_TYPE_FIRST, mAdapter.getItem(position).getName());
-        intent.putExtra(ArticleTypeActivity.ARTICLE_TYPE_SECOND, (Serializable) mAdapter.getItem(position).getChildren());
-        ActivityUtils.startActivity(mContext, intent);
+        // 跳转文章详情页面
+        ArticleContentActivity.runActivity(mContext, mAdapter.getItem(position).getLink(), mAdapter.getItem(position).getTitle());
+    }
+
+    @Override
+    public void setKnowledgesystemArticles(Article article, int loadType) {
+        switch (loadType) {
+            case Constant.TYPE_REFRESH_SUCCESS:
+                // 刷新
+                mAdapter.setNewData(article.getDatas());
+                break;
+            case Constant.TYPE_LOAD_MORE_SUCCESS:
+                // 加载更多
+                mAdapter.addData(article.getDatas());
+                break;
+            default:
+                break;
+        }
+        if (article.getDatas() == null || article.getDatas().isEmpty() ||
+                article.getDatas().size() < Constant.PAGE_SIZE) {
+            mAdapter.loadMoreEnd();
+        } else {
+            mAdapter.loadMoreComplete();
+        }
     }
 }

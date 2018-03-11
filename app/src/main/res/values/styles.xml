@@ -50,4 +50,9 @@
         <item name="android:textSize">@dimen/sp_18</item>
     </style>
 
+    <!-- TabLayout字体样式 -->
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>

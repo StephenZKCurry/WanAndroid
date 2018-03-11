@@ -17,6 +17,7 @@ import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @description: 普通Activity基类
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected WaitPorgressDialog mWaitPorgressDialog;
     protected Toolbar mToolbar;
     protected String TAG;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getAppManager().finishActivity(this);
+        unbinder.unbind();
         Log.d(TAG, "onDestroy()");
     }
 
@@ -91,7 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化页面
      */
     protected void initView() {
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         initToolBar();
     }
 

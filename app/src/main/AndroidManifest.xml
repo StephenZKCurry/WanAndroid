@@ -52,6 +52,10 @@
         <activity
             android:name=".ui.hotsearch.SearchActivity"
             android:screenOrientation="portrait" />
+        <!-- 知识体系详情页面 -->
+        <activity
+            android:name=".ui.article.ArticleTypeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -7,10 +7,10 @@
             android:id="@+id/group_item_home"
             android:icon="@drawable/ic_vector_home"
             android:title="@string/title_home" />
-        <item
-            android:id="@+id/group_item_history"
-            android:icon="@drawable/ic_vector_history"
-            android:title="@string/item_history" />
+        <!--<item-->
+            <!--android:id="@+id/group_item_history"-->
+            <!--android:icon="@drawable/ic_vector_history"-->
+            <!--android:title="@string/item_history" />-->
         <item
             android:id="@+id/group_item_collection"
             android:icon="@drawable/ic_vector_collection"

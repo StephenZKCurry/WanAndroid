@@ -12,6 +12,7 @@ public class Constant {
 
     // 每页数量
     public static final int PAGE_SIZE = 20;
+    public static final int PAGE_SIZE_PROJECT = 15;
 
     // 加载数据类型
     public static final int TYPE_REFRESH_SUCCESS = 1;

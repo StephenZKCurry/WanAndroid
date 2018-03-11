@@ -48,6 +48,7 @@ public abstract class LazyFragment extends Fragment {
         isPrepared = true;
         View view = inflater.inflate(getContentViewId(), null);
         initView(view);
+        lazyLoad();
         return view;
     }
 

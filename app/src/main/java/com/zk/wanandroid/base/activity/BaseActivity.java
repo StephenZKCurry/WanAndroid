@@ -96,13 +96,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initView() {
         unbinder = ButterKnife.bind(this);
         initToolBar();
+        mWaitPorgressDialog = new WaitPorgressDialog(this);
     }
 
     /**
      * 初始化数据
      */
     protected void initData() {
-        mWaitPorgressDialog = new WaitPorgressDialog(this);
+
     }
 
     /**

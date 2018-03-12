@@ -76,4 +76,8 @@ dependencies {
     implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
     // MD风格的Dialog
     implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
+    // 垂直纵向的TabLayout
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+    // 垂直ViewPager
+    implementation 'me.kaelaela:verticalviewpager:1.0.0@aar'
 }

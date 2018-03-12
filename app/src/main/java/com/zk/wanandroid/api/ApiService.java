@@ -5,6 +5,7 @@ import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.HomeBanner;
 import com.zk.wanandroid.bean.KnowledgeSystem;
+import com.zk.wanandroid.bean.Navigation;
 import com.zk.wanandroid.bean.Project;
 
 import java.util.List;
@@ -89,6 +90,15 @@ public interface ApiService {
      */
     @GET("/article/list/{page}/json")
     Observable<DataResponse<Article>> getKnowledgeSystemsArticles(@Path("page") int page, @Query("cid") int cid);
+
+    /**
+     * 导航数据
+     * http://www.wanandroid.com/navi/json
+     *
+     * @return
+     */
+    @GET("/navi/json")
+    Observable<DataResponse<List<Navigation>>> getNavigation();
 
     /**
      * 项目分类

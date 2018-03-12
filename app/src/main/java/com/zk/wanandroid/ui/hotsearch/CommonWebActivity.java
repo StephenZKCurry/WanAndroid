@@ -87,7 +87,7 @@ public class CommonWebActivity extends BaseMVPActivity<CommonWebContract.CommonW
      */
     @Override
     public void setCommonWeb(List<CommonWeb> commonWebs) {
-        mAdapter = new CommonWebAdapter(this, commonWebs);
+        mAdapter = new CommonWebAdapter(mContext, commonWebs);
         mTflCommonWeb.setAdapter(mAdapter);
     }
 }

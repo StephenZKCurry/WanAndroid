@@ -63,6 +63,7 @@ public abstract class LazyFragment extends Fragment {
      * 初始化页面
      */
     protected void initView(View view) {
+        mWaitPorgressDialog = new WaitPorgressDialog(mContext);
         ButterKnife.bind(this, view);
     }
 
@@ -70,7 +71,6 @@ public abstract class LazyFragment extends Fragment {
      * 初始化数据
      */
     protected void initData() {
-        mWaitPorgressDialog = new WaitPorgressDialog(mContext);
     }
 
     /**

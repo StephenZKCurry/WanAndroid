@@ -36,4 +36,30 @@ public class ArticleTypeModel implements ArticleTypeContract.IArticleTypeModel {
                 .getKnowledgeSystemsArticles(page, cid)
                 .compose(RxSchedulers.<DataResponse<Article>>applySchedulers());
     }
+
+    /**
+     * 收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> collectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .addCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
+
+    /**
+     * 取消收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> cancelCollectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .removeCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
 }

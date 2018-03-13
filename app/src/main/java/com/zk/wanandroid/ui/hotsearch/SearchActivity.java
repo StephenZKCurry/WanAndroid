@@ -122,6 +122,8 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
         mSwipeRefreshLayout.setOnRefreshListener(this);
         articleAdapter.setOnLoadMoreListener(this);
         articleAdapter.setOnItemClickListener(this);
+        articleAdapter.setOnItemChildClickListener(this);
+        histroyAdapter.setOnItemClickListener(this);
         histroyAdapter.setOnItemChildClickListener(this);
 
         tvClear.setOnClickListener(this);
@@ -244,6 +246,30 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
     }
 
     /**
+     * 收藏成功
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  收藏的文章
+     */
+    @Override
+    public void collectArticleSuccess(int position, Article.DatasBean article) {
+        // 更新数据
+        articleAdapter.setData(position, article);
+    }
+
+    /**
+     * 取消收藏成功
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  取消收藏的文章
+     */
+    @Override
+    public void cancelCollectArticleSuccess(int position, Article.DatasBean article) {
+        // 更新数据
+        articleAdapter.setData(position, article);
+    }
+
+    /**
      * 下拉刷新
      */
     @Override
@@ -261,9 +287,16 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        // 跳转文章详情页面
-        ArticleContentActivity.runActivity(mContext, articleAdapter.getItem(position).getLink(),
-                articleAdapter.getItem(position).getTitle());
+        if (adapter instanceof SearchHistroyAdapter) {
+            String keyWord = histroyAdapter.getItem(position).getName();
+            mSearchView.clearFocus();
+            // 将文字填入搜索框
+            mSearchView.setQuery(keyWord, true);
+        } else if (adapter instanceof ArticleAdapter) {
+            // 跳转文章详情页面
+            ArticleContentActivity.runActivity(mContext, articleAdapter.getItem(position).getLink(),
+                    articleAdapter.getItem(position).getTitle());
+        }
     }
 
     @Override
@@ -272,6 +305,17 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
             case R.id.iv_close:
                 // 删除单条搜索记录
                 mPresenter.deleteHistoryByKey(histroyAdapter.getItem(position).getId());
+                break;
+            case R.id.iv_collect:
+                // 收藏（取消收藏）文章
+                Article.DatasBean article = articleAdapter.getItem(position);
+                if (!article.isCollect()) {
+                    // 添加收藏
+                    mPresenter.collectArticle(position, article);
+                } else {
+                    // 取消收藏
+                    mPresenter.cancelCollectArticle(position, article);
+                }
                 break;
             default:
                 break;

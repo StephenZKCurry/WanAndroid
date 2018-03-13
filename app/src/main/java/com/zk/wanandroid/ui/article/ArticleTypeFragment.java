@@ -23,7 +23,7 @@ import butterknife.BindView;
  */
 public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.ArticleTypePresenter, ArticleTypeContract.IArticleTypeModel>
         implements ArticleTypeContract.IArticleTypeView, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener,
-        BaseQuickAdapter.OnItemClickListener {
+        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.rv_article)
     RecyclerView mRecyclerView;
@@ -77,6 +77,7 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mAdapter.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
     }
 
     @NonNull
@@ -101,6 +102,30 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
     }
 
     /**
+     * 收藏成功
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  收藏的文章
+     */
+    @Override
+    public void collectArticleSuccess(int position, Article.DatasBean article) {
+        // 更新数据
+        mAdapter.setData(position, article);
+    }
+
+    /**
+     * 取消收藏成功
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  取消收藏的文章
+     */
+    @Override
+    public void cancelCollectArticleSuccess(int position, Article.DatasBean article) {
+        // 更新数据
+        mAdapter.setData(position, article);
+    }
+
+    /**
      * 下拉刷新
      */
     @Override
@@ -120,6 +145,25 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         // 跳转文章详情页面
         ArticleContentActivity.runActivity(mContext, mAdapter.getItem(position).getLink(), mAdapter.getItem(position).getTitle());
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (view.getId()) {
+            case R.id.iv_collect:
+                // 收藏（取消收藏）文章
+                Article.DatasBean article = mAdapter.getItem(position);
+                if (!article.isCollect()) {
+                    // 添加收藏
+                    mPresenter.collectArticle(position, article);
+                } else {
+                    // 取消收藏
+                    mPresenter.cancelCollectArticle(position, article);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

@@ -60,6 +60,32 @@ public class SearchModel implements SearchContract.ISearchModel {
     }
 
     /**
+     * 收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> collectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .addCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
+
+    /**
+     * 取消收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> cancelCollectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .removeCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
+
+    /**
      * 添加搜索记录到数据库
      *
      * @param name

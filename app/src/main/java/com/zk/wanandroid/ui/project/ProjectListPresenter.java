@@ -2,6 +2,7 @@ package com.zk.wanandroid.ui.project;
 
 import android.support.annotation.NonNull;
 
+import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.Project;
@@ -47,6 +48,82 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
     public void loadMore() {
         mPage += 1;
         loadProjectList(mCid, mPage);
+    }
+
+    /**
+     * 收藏项目
+     *
+     * @param position 项目在列表中的position，用于更新数据
+     * @param project  收藏的项目
+     */
+    @Override
+    public void collectProject(final int position, final Project.DatasBean project) {
+        if (mIView == null || mIModel == null) {
+            return;
+        }
+        mRxManager.register(mIModel.collectProject(project.getId())
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
+                            // 收藏成功
+                            project.setCollect(true);
+                            mIView.collectProjectSuccess(position, project);
+                            mIView.showToast(App.getContext().getString(R.string.collection_success));
+                        } else {
+                            // 收藏失败
+                            mIView.showToast(App.getContext().getString(R.string.collection_failed));
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        boolean available = NetworkUtils.isAvailable(App.getContext());
+                        if (!available) {
+                            mIView.showNoNet();
+                        } else {
+                            mIView.showFaild(throwable.getMessage());
+                        }
+                    }
+                }));
+    }
+
+    /**
+     * 取消收藏项目
+     *
+     * @param position 项目在列表中的position，用于更新数据
+     * @param project  取消收藏的项目
+     */
+    @Override
+    public void cancelCollectProject(final int position, final Project.DatasBean project) {
+        if (mIView == null || mIModel == null) {
+            return;
+        }
+        mRxManager.register(mIModel.cancelCollectProject(project.getId())
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
+                            // 取消收藏成功
+                            project.setCollect(false);
+                            mIView.cancelCollectProjectSuccess(position, project);
+                            mIView.showToast(App.getContext().getString(R.string.collection_cancel_success));
+                        } else {
+                            // 取消收藏失败
+                            mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        boolean available = NetworkUtils.isAvailable(App.getContext());
+                        if (!available) {
+                            mIView.showNoNet();
+                        } else {
+                            mIView.showFaild(throwable.getMessage());
+                        }
+                    }
+                }));
     }
 
     /**

@@ -2,6 +2,7 @@ package com.zk.wanandroid.ui.home;
 
 import android.support.annotation.NonNull;
 
+import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.DataResponse;
@@ -43,6 +44,82 @@ public class HomePresenter extends HomeContract.HomePresenter {
     public void loadMore() {
         mPage += 1;
         loadHomeArticles(mPage);
+    }
+
+    /**
+     * 收藏文章
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  收藏的文章
+     */
+    @Override
+    public void collectArticle(final int position, final Article.DatasBean article) {
+        if (mIView == null || mIModel == null) {
+            return;
+        }
+        mRxManager.register(mIModel.collectArticle(article.getId())
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
+                            // 收藏成功
+                            article.setCollect(true);
+                            mIView.collectArticleSuccess(position, article);
+                            mIView.showToast(App.getContext().getString(R.string.collection_success));
+                        } else {
+                            // 收藏失败
+                            mIView.showToast(App.getContext().getString(R.string.collection_failed));
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        boolean available = NetworkUtils.isAvailable(App.getContext());
+                        if (!available) {
+                            mIView.showNoNet();
+                        } else {
+                            mIView.showFaild(throwable.getMessage());
+                        }
+                    }
+                }));
+    }
+
+    /**
+     * 取消收藏文章
+     *
+     * @param position 文章在列表中的position，用于更新数据
+     * @param article  取消收藏的文章
+     */
+    @Override
+    public void cancelCollectArticle(final int position, final Article.DatasBean article) {
+        if (mIView == null || mIModel == null) {
+            return;
+        }
+        mRxManager.register(mIModel.cancelCollectArticle(article.getId())
+                .subscribe(new Consumer<DataResponse>() {
+                    @Override
+                    public void accept(DataResponse dataResponse) throws Exception {
+                        if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
+                            // 取消收藏成功
+                            article.setCollect(false);
+                            mIView.cancelCollectArticleSuccess(position, article);
+                            mIView.showToast(App.getContext().getString(R.string.collection_cancel_success));
+                        } else {
+                            // 取消收藏失败
+                            mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        boolean available = NetworkUtils.isAvailable(App.getContext());
+                        if (!available) {
+                            mIView.showNoNet();
+                        } else {
+                            mIView.showFaild(throwable.getMessage());
+                        }
+                    }
+                }));
     }
 
     /**

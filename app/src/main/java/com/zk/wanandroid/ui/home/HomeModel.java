@@ -7,15 +7,12 @@ import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.HomeBanner;
 import com.zk.wanandroid.manager.RetrofitManager;
-import com.zk.wanandroid.manager.RxManager;
 import com.zk.wanandroid.utils.Constant;
 import com.zk.wanandroid.utils.RxSchedulers;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * @description: 首页Model
@@ -52,5 +49,31 @@ public class HomeModel implements HomeContract.IHomeModel {
         return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
                 .getHomeArticles(page)
                 .compose(RxSchedulers.<DataResponse<Article>>applySchedulers());
+    }
+
+    /**
+     * 收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> collectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .addCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
+
+    /**
+     * 取消收藏文章
+     *
+     * @param id 文章id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> cancelCollectArticle(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .removeCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
     }
 }

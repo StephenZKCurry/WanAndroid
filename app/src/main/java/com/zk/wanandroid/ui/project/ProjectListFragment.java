@@ -111,6 +111,30 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
     }
 
     /**
+     * 收藏成功
+     *
+     * @param position 项目在列表中的position，用于更新数据
+     * @param project  收藏的项目
+     */
+    @Override
+    public void collectProjectSuccess(int position, Project.DatasBean project) {
+        // 更新数据
+        mAdapter.setData(position, project);
+    }
+
+    /**
+     * 取消收藏成功
+     *
+     * @param position 项目在列表中的position，用于更新数据
+     * @param project  取消收藏的项目
+     */
+    @Override
+    public void cancelCollectProjectSuccess(int position, Project.DatasBean project) {
+        // 更新数据
+        mAdapter.setData(position, project);
+    }
+
+    /**
      * 下拉刷新
      */
     @Override
@@ -142,6 +166,17 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
+            case R.id.iv_collect:
+                // 收藏（取消收藏）项目
+                Project.DatasBean project = mAdapter.getItem(position);
+                if (!project.isCollect()) {
+                    // 添加收藏
+                    mPresenter.collectProject(position, project);
+                } else {
+                    // 取消收藏
+                    mPresenter.cancelCollectProject(position, project);
+                }
+                break;
             case R.id.tv_download:
                 // 跳转手机浏览器下载apk
                 Uri uri = Uri.parse(mAdapter.getItem(position).getApkLink());

@@ -40,6 +40,15 @@ public class ProjectListAdapter extends BaseQuickAdapter<Project.DatasBean, Base
         } else {
             tvDownload.setVisibility(View.VISIBLE);
         }
+        // 安装下载添加点击事件
         helper.addOnClickListener(R.id.tv_download);
+
+        if (item.isCollect()) {
+            helper.setImageResource(R.id.iv_collect, R.drawable.ic_vector_like);
+        } else {
+            helper.setImageResource(R.id.iv_collect, R.drawable.ic_vector_notlike);
+        }
+        // 收藏添加点击事件
+        helper.addOnClickListener(R.id.iv_collect);
     }
 }

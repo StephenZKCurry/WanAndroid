@@ -35,6 +35,10 @@
             android:name=".ui.mine.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <!-- 注册页面 -->
+        <activity
+            android:name=".ui.mine.RegisterActivity"
+            android:screenOrientation="portrait" />
         <!-- 主页面 -->
         <activity
             android:name=".ui.MainActivity"

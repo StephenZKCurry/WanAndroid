@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @description: 懒加载Fragmernt
@@ -35,11 +37,13 @@ public abstract class LazyFragment extends Fragment {
     private boolean isFirstLoad = true; // 是否第一次加载
     protected Context mContext;
     protected WaitPorgressDialog mWaitPorgressDialog;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        RxBus.get().register(this); // 注册RxBus
     }
 
     @Override
@@ -50,6 +54,13 @@ public abstract class LazyFragment extends Fragment {
         initView(view);
         lazyLoad();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+        RxBus.get().unRegister(mContext); // 取消注册RxBus
     }
 
     /**
@@ -64,7 +75,7 @@ public abstract class LazyFragment extends Fragment {
      */
     protected void initView(View view) {
         mWaitPorgressDialog = new WaitPorgressDialog(mContext);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
     }
 
     /**

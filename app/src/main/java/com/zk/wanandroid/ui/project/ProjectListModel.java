@@ -36,4 +36,30 @@ public class ProjectListModel implements ProjectListContract.IProjectListModel {
                 .getProjectList(page, cid)
                 .compose(RxSchedulers.<DataResponse<Project>>applySchedulers());
     }
+
+    /**
+     * 收藏项目
+     *
+     * @param id 项目id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> collectProject(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .addCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
+
+    /**
+     * 取消收藏项目
+     *
+     * @param id 项目id
+     * @return
+     */
+    @Override
+    public Observable<DataResponse> cancelCollectProject(int id) {
+        return RetrofitManager.createApi(ApiService.class, Constant.BASE_URL)
+                .removeCollectArticle(id)
+                .compose(RxSchedulers.<DataResponse>applySchedulers());
+    }
 }

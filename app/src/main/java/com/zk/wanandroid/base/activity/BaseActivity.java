@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.zk.wanandroid.R;
 import com.zk.wanandroid.manager.AppManager;
+import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.SystemStatusManager;
 import com.zk.wanandroid.utils.ToastUtils;
@@ -40,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         TAG = getClass().getSimpleName();
         Log.d(TAG, "onCreate()");
         setContentView(getContentViewId());
+        RxBus.get().register(this); // 注册RxBus
         initView();
         initData();
         initEvent();
@@ -79,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         AppManager.getAppManager().finishActivity(this);
+        RxBus.get().unRegister(mContext); // 取消注册RxBus
         unbinder.unbind();
         Log.d(TAG, "onDestroy()");
     }

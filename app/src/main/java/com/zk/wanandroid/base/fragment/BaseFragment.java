@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
@@ -30,6 +31,7 @@ public abstract class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        RxBus.get().register(this); // 注册RxBus
     }
 
     @Nullable
@@ -57,6 +59,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        RxBus.get().unRegister(mContext); // 取消注册RxBus
     }
 
     /**

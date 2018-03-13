@@ -44,6 +44,22 @@ public interface SearchContract {
         public abstract void loadMore();
 
         /**
+         * 收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        public abstract void collectArticle(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        public abstract void cancelCollectArticle(int position, Article.DatasBean article);
+
+        /**
          * 添加搜索记录到数据库
          *
          * @param name
@@ -83,6 +99,22 @@ public interface SearchContract {
          * @param page 页码，从0开始
          */
         Observable<DataResponse<Article>> loadSearchArticles(String key, int page);
+
+        /**
+         * 收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> collectArticle(int id);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> cancelCollectArticle(int id);
 
         /**
          * 添加搜索记录到数据库
@@ -135,6 +167,22 @@ public interface SearchContract {
          * @param refresh
          */
         void showRefreshView(Boolean refresh);
+
+        /**
+         * 收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        void collectArticleSuccess(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        void cancelCollectArticleSuccess(int position, Article.DatasBean article);
 
         /**
          * 显示搜索历史

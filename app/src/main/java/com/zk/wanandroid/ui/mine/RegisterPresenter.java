@@ -11,44 +11,45 @@ import com.zk.wanandroid.utils.NetworkUtils;
 import io.reactivex.functions.Consumer;
 
 /**
- * @description: 登录Presenter
+ * @description: 注册Presenter
  * @author: zhukai
- * @date: 2018/3/8 16:56
+ * @date: 2018/3/12 16:35
  */
-public class LoginPresenter extends LoginContract.LoginPresenter {
+public class RegisterPresenter extends RegisterContract.RegisterPresenter {
 
     @NonNull
-    public static LoginPresenter newInstance() {
-        return new LoginPresenter();
+    public static RegisterPresenter newInstance() {
+        return new RegisterPresenter();
     }
 
     @Override
-    public LoginContract.ILoginModel getModel() {
-        return LoginModel.newInstance();
+    public RegisterContract.IRegisterModel getModel() {
+        return RegisterModel.newInstance();
     }
 
     /**
-     * 登录
+     * 注册
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param username   用户名
+     * @param password   密码
+     * @param repassword 确认密码
      */
     @Override
-    public void doLogin(String username, String password) {
+    public void doRegister(String username, String password, String repassword) {
         if (mIView == null || mIModel == null) {
             return;
         }
         mIView.showProgressDialog("请稍后...");
-        mRxManager.register(mIModel.doLogin(username, password)
+        mRxManager.register(mIModel.doRegister(username, password, repassword)
                 .subscribe(new Consumer<DataResponse<User>>() {
                     @Override
                     public void accept(DataResponse<User> dataResponse) throws Exception {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 注册成功
-                            mIView.showLoginSuccess(dataResponse.getData());
+                            mIView.showRegisterSuccess(dataResponse.getData());
                         } else {
                             // 注册失败
-                            mIView.showLoginFaild(dataResponse.getErrorMsg());
+                            mIView.showRegisterFaild(dataResponse.getErrorMsg());
                         }
                         mIView.hideProgressDialog();
                     }

@@ -24,5 +24,13 @@ public class ArticleAdapter extends BaseQuickAdapter<Article.DatasBean, BaseView
         helper.setText(R.id.tv_date, item.getNiceDate());
         helper.setText(R.id.tv_title, item.getTitle());
         helper.setText(R.id.tv_chapter, item.getChapterName());
+
+        if (item.isCollect()) {
+            helper.setImageResource(R.id.iv_collect, R.drawable.ic_vector_like);
+        } else {
+            helper.setImageResource(R.id.iv_collect, R.drawable.ic_vector_notlike);
+        }
+        // 收藏添加点击事件
+        helper.addOnClickListener(R.id.iv_collect);
     }
 }

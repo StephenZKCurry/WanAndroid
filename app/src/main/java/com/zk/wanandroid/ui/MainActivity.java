@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +18,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.activity.BaseActivity;
+import com.zk.wanandroid.rxbus.RxBus;
+import com.zk.wanandroid.rxbus.Subscribe;
+import com.zk.wanandroid.rxbus.ThreadMode;
+import com.zk.wanandroid.ui.article.ArticleContentActivity;
 import com.zk.wanandroid.ui.home.HomeFragment;
 import com.zk.wanandroid.ui.hotsearch.CommonWebActivity;
 import com.zk.wanandroid.ui.hotsearch.SearchActivity;
@@ -27,7 +35,9 @@ import com.zk.wanandroid.ui.mine.LoginActivity;
 import com.zk.wanandroid.ui.navigation.NavigationFragment;
 import com.zk.wanandroid.ui.project.ProjectFragment;
 import com.zk.wanandroid.utils.ActivityUtils;
+import com.zk.wanandroid.utils.Constant;
 import com.zk.wanandroid.utils.NavigationUtils;
+import com.zk.wanandroid.utils.SpUtils;
 import com.zk.wanandroid.utils.SystemStatusManager;
 import com.zk.wanandroid.widgets.helper.BottomNavigationViewHelper;
 
@@ -121,7 +131,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData() {
         super.initData();
-        tv_name.setText(getString(R.string.click_tologin));
+        // 初始化用户信息
+        setUserInfo();
     }
 
     @Override
@@ -164,29 +175,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     case R.id.group_item_home:
                         // 显示主页
                         mBottomNavigationView.setSelectedItemId(R.id.menu_item_home);
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
 //                    case R.id.group_item_history:
 //
 //                        break;
                     case R.id.group_item_collection:
-
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_github:
-
+                        // 跳转项目主页
+                        ArticleContentActivity.runActivity(mContext, "https://github.com/StephenZKCurry/WanAndroid", "WanAndroid");
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_share_project:
-
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_setting:
-
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_about:
-
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.group_item_logout:
+                        new MaterialDialog.Builder(mContext)
+                                .content(R.string.delete_all_search_history)
+                                .positiveText(R.string.dialog_confirm)
+                                .positiveColor(mContext.getResources().getColor(R.color.color_main))
+                                .negativeText(R.string.dialog_cancel)
+                                .negativeColor(mContext.getResources().getColor(R.color.font_default))
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        // 退出登录
+                                        SpUtils.clearSp(mContext);
+                                        // 清除cookies
+                                        new SharedPrefsCookiePersistor(mContext).clear();
+                                        // 退出登录通知其他页面刷新
+                                        RxBus.get().send(Constant.RX_BUS_CODE_LOGIN);
+//                                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                                    }
+                                }).show();
                         break;
                     default:
                         break;
                 }
-                mDrawerLayout.closeDrawer(GravityCompat.START);
                 return false;
             }
         });
@@ -333,6 +366,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 设置用户信息
+     */
+    @Subscribe(code = Constant.RX_BUS_CODE_LOGIN, threadMode = ThreadMode.MAIN)
+    public void setUserInfo() {
+        String username = SpUtils.getString(mContext, Constant.USER_NAME, "");
+        if (TextUtils.isEmpty(username)) {
+            // 未登录
+            tv_name.setText(getString(R.string.click_tologin));
+            civ_head.setImageResource(R.mipmap.icon_default_header);
+            civ_head.setEnabled(true);
+            mNavigationView.getMenu().getItem(2).setVisible(false); // 隐藏退出登录
+        } else {
+            // 已经登录
+            tv_name.setText(username);
+            civ_head.setImageResource(R.mipmap.icon_header);
+            civ_head.setEnabled(false);
+            mNavigationView.getMenu().getItem(2).setVisible(true);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.zk.wanandroid.ui.project;
 import com.zk.wanandroid.base.BasePresenter;
 import com.zk.wanandroid.base.IBaseModel;
 import com.zk.wanandroid.base.IBaseView;
+import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.KnowledgeSystem;
 import com.zk.wanandroid.bean.Project;
@@ -37,6 +38,22 @@ public interface ProjectListContract {
          * 上拉加载数据
          */
         public abstract void loadMore();
+
+        /**
+         * 收藏项目
+         *
+         * @param position 项目在列表中的position，用于更新数据
+         * @param project  收藏的项目
+         */
+        public abstract void collectProject(int position, Project.DatasBean project);
+
+        /**
+         * 取消收藏项目
+         *
+         * @param position 项目在列表中的position，用于更新数据
+         * @param project  取消收藏的项目
+         */
+        public abstract void cancelCollectProject(int position,Project.DatasBean project);
     }
 
     interface IProjectListModel extends IBaseModel {
@@ -48,6 +65,22 @@ public interface ProjectListContract {
          * @return
          */
         Observable<DataResponse<Project>> loadProjectList(int cid, int page);
+
+        /**
+         * 收藏文章
+         *
+         * @param id 项目id
+         * @return
+         */
+        Observable<DataResponse> collectProject(int id);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param id 项目id
+         * @return
+         */
+        Observable<DataResponse> cancelCollectProject(int id);
     }
 
     interface IProjectListView extends IBaseView {
@@ -66,5 +99,21 @@ public interface ProjectListContract {
          * @param refresh
          */
         void showRefreshView(Boolean refresh);
+
+        /**
+         * 收藏项目成功
+         *
+         * @param position 项目在列表中的position，用于更新数据
+         * @param project  收藏的项目
+         */
+        void collectProjectSuccess(int position, Project.DatasBean project);
+
+        /**
+         * 取消收藏项目成功
+         *
+         * @param position 项目在列表中的position，用于更新数据
+         * @param project  取消收藏的项目
+         */
+        void cancelCollectProjectSuccess(int position, Project.DatasBean project);
     }
 }

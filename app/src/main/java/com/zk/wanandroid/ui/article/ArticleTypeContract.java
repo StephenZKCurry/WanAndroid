@@ -35,6 +35,22 @@ public interface ArticleTypeContract {
          * 上拉加载数据
          */
         public abstract void loadMore();
+
+        /**
+         * 收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        public abstract void collectArticle(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        public abstract void cancelCollectArticle(int position, Article.DatasBean article);
     }
 
     interface IArticleTypeModel extends IBaseModel {
@@ -46,6 +62,22 @@ public interface ArticleTypeContract {
          * @return
          */
         Observable<DataResponse<Article>> loadKnowledgesystemArticles(int cid, int page);
+
+        /**
+         * 收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> collectArticle(int id);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> cancelCollectArticle(int id);
     }
 
     interface IArticleTypeView extends IBaseView {
@@ -64,5 +96,21 @@ public interface ArticleTypeContract {
          * @param refresh
          */
         void showRefreshView(Boolean refresh);
+
+        /**
+         * 收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        void collectArticleSuccess(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        void cancelCollectArticleSuccess(int position, Article.DatasBean article);
     }
 }

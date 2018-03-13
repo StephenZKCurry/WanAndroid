@@ -40,6 +40,22 @@ public interface HomeContract {
          * 上拉加载数据
          */
         public abstract void loadMore();
+
+        /**
+         * 收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        public abstract void collectArticle(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        public abstract void cancelCollectArticle(int position, Article.DatasBean article);
     }
 
     interface IHomeModel extends IBaseModel {
@@ -57,6 +73,22 @@ public interface HomeContract {
          * @return
          */
         Observable<DataResponse<Article>> loadHomeArticles(int page);
+
+        /**
+         * 收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> collectArticle(int id);
+
+        /**
+         * 取消收藏文章
+         *
+         * @param id 文章id
+         * @return
+         */
+        Observable<DataResponse> cancelCollectArticle(int id);
     }
 
     interface IHomeView extends IBaseView {
@@ -73,7 +105,7 @@ public interface HomeContract {
          * @param article
          * @param loadType 类型：刷新或加载更多
          */
-        void showHomeArticle(Article article,int loadType);
+        void showHomeArticle(Article article, int loadType);
 
         /**
          * 是否显示刷新view，这里使用SwipeRefreshLayout
@@ -82,5 +114,21 @@ public interface HomeContract {
          * @param refresh
          */
         void showRefreshView(Boolean refresh);
+
+        /**
+         * 收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  收藏的文章
+         */
+        void collectArticleSuccess(int position, Article.DatasBean article);
+
+        /**
+         * 取消收藏文章成功
+         *
+         * @param position 文章在列表中的position，用于更新数据
+         * @param article  取消收藏的文章
+         */
+        void cancelCollectArticleSuccess(int position, Article.DatasBean article);
     }
 }

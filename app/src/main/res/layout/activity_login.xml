@@ -33,7 +33,7 @@
                 android:src="@mipmap/icon_username" />
 
             <com.zk.wanandroid.widgets.ClearEditText
-                android:id="@+id/et_login_phone"
+                android:id="@+id/et_login_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -91,18 +91,17 @@
             android:id="@+id/tv_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
-            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_40"
             android:gravity="center"
-            android:padding="@dimen/dp_12"
+            android:padding="@dimen/dp_10"
             android:text="@string/login"
-            android:textColor="@color/color_white"
+            android:textColor="@color/color_main"
             android:textSize="@dimen/sp_16"
-            rv:rv_backgroundColor="@color/color_main"
             rv:rv_cornerRadius="@dimen/dp_10"
             rv:rv_isRippleEnable="true"
-            rv:rv_strokeColor="@color/color_divider"
+            rv:rv_strokeColor="@color/color_main"
             rv:rv_strokeWidth="1dp" />
 
         <RelativeLayout

@@ -60,6 +60,14 @@
         <activity
             android:name=".ui.article.ArticleTypeActivity"
             android:screenOrientation="portrait" />
+        <!-- 我的收藏页面 -->
+        <activity
+            android:name=".ui.mine.MyCollectionActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的书签页面 -->
+        <activity
+            android:name=".ui.mine.MyBookmarkActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

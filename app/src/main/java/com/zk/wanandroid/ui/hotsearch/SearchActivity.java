@@ -4,13 +4,14 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,15 +29,19 @@ import com.zk.wanandroid.base.activity.BaseMVPActivity;
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.db.SearchHistory;
+import com.zk.wanandroid.rxbus.Subscribe;
+import com.zk.wanandroid.rxbus.ThreadMode;
 import com.zk.wanandroid.ui.article.ArticleAdapter;
 import com.zk.wanandroid.ui.article.ArticleContentActivity;
+import com.zk.wanandroid.ui.mine.LoginActivity;
+import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.Constant;
+import com.zk.wanandroid.utils.SpUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
-
-import static com.zk.wanandroid.base.App.getContext;
+import butterknife.OnClick;
 
 /**
  * @description: 搜索文章页面
@@ -44,7 +49,7 @@ import static com.zk.wanandroid.base.App.getContext;
  * @date: 2018/3/7 16:24
  */
 public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresenter, SearchContract.ISearchModel>
-        implements SearchContract.ISearchView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener,
+        implements SearchContract.ISearchView, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener,
         BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.ll_hot)
@@ -79,8 +84,8 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
     protected void initView() {
         super.initView();
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
-        rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvArticle.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvHistory.setLayoutManager(new LinearLayoutManager(mContext));
+        rvArticle.setLayoutManager(new LinearLayoutManager(mContext));
         articleAdapter = new ArticleAdapter(null);
         // 设置空数据显示
 //        View emptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_empty_view, null, false);
@@ -125,8 +130,6 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
         articleAdapter.setOnItemChildClickListener(this);
         histroyAdapter.setOnItemClickListener(this);
         histroyAdapter.setOnItemChildClickListener(this);
-
-        tvClear.setOnClickListener(this);
     }
 
     @Override
@@ -307,14 +310,21 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
                 mPresenter.deleteHistoryByKey(histroyAdapter.getItem(position).getId());
                 break;
             case R.id.iv_collect:
-                // 收藏（取消收藏）文章
-                Article.DatasBean article = articleAdapter.getItem(position);
-                if (!article.isCollect()) {
-                    // 添加收藏
-                    mPresenter.collectArticle(position, article);
+                String username = SpUtils.getString(mContext, Constant.USER_NAME, "");
+                if (TextUtils.isEmpty(username)) {
+                    // 未登录，跳转登录页面
+                    showToast(getString(R.string.collection_no_login));
+                    ActivityUtils.startActivity(mContext, new Intent(mContext, LoginActivity.class));
                 } else {
-                    // 取消收藏
-                    mPresenter.cancelCollectArticle(position, article);
+                    // 收藏（取消收藏）文章
+                    Article.DatasBean article = articleAdapter.getItem(position);
+                    if (!article.isCollect()) {
+                        // 添加收藏
+                        mPresenter.collectArticle(position, article);
+                    } else {
+                        // 取消收藏
+                        mPresenter.cancelCollectArticle(position, article);
+                    }
                 }
                 break;
             default:
@@ -322,27 +332,24 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_clear:
-                new MaterialDialog.Builder(mContext)
-                        .content(R.string.delete_all_search_history)
-                        .positiveText(R.string.dialog_confirm)
-                        .positiveColor(mContext.getResources().getColor(R.color.color_main))
-                        .negativeText(R.string.dialog_cancel)
-                        .negativeColor(mContext.getResources().getColor(R.color.font_default))
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                // 清空搜索历史
-                                mPresenter.deleteAllHistory();
-                            }
-                        }).show();
-                break;
-            default:
-                break;
-        }
+    /**
+     * 清空历史记录
+     */
+    @OnClick(R.id.tv_clear)
+    public void clear() {
+        new MaterialDialog.Builder(mContext)
+                .content(R.string.delete_all_search_history)
+                .positiveText(R.string.dialog_confirm)
+                .positiveColor(mContext.getResources().getColor(R.color.color_main))
+                .negativeText(R.string.dialog_cancel)
+                .negativeColor(mContext.getResources().getColor(R.color.font_default))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        // 清空搜索历史
+                        mPresenter.deleteAllHistory();
+                    }
+                }).show();
     }
 
     @Override
@@ -362,6 +369,14 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
                 finish();
             }
         }
+    }
+
+    /**
+     * 登录或退出登录刷新
+     */
+    @Subscribe(code = Constant.RX_BUS_CODE_LOGIN, threadMode = ThreadMode.MAIN)
+    public void refreshProject() {
+        mPresenter.refresh();
     }
 }
 

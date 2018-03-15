@@ -29,6 +29,14 @@ public class Constant {
     public static final String USER_NAME = "user_name"; // 用户名
     public static final String USER_PASSWORD = "user_password"; // 密码
 
+    // 添加收藏对话框类别
+    public final static int DIALOG_ADD_COLLECTION = 0; // 新增收藏
+    public final static int DIALOG_ADD_BOOKMARK = 1; // 新增书签
+    public final static int DIALOG_EDIT_BOOKMARK = 2; // 新增书签
+
     // RxBus
     public final static int RX_BUS_CODE_LOGIN = 0; // 登录或退出登录操作
+    public final static int RX_BUS_CODE_ADD_COLLECTION = 1; // 添加站外文章收藏
+    public final static int RX_BUS_CODE_ADD_BOOKMARK = 2; // 添加书签
+    public final static int RX_BUS_CODE_EDIT_BOOKMARK = 3; // 编辑书签
 }

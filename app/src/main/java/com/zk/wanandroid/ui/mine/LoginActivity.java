@@ -20,6 +20,7 @@ import com.zk.wanandroid.utils.SpUtils;
 import com.zk.wanandroid.widgets.ClearEditText;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @description: 登录页面
@@ -27,7 +28,7 @@ import butterknife.BindView;
  * @date: 2018/3/8 16:29
  */
 public class LoginActivity extends BaseMVPActivity<LoginContract.LoginPresenter, LoginContract.ILoginModel>
-        implements LoginContract.ILoginView, View.OnClickListener {
+        implements LoginContract.ILoginView {
 
     @BindView(R.id.et_login_username)
     ClearEditText etLoginUsername;
@@ -64,8 +65,6 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.LoginPresenter,
     @Override
     protected void initEvent() {
         super.initEvent();
-        tvLogin.setOnClickListener(this);
-        tvRegister.setOnClickListener(this);
     }
 
     @NonNull
@@ -74,10 +73,11 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.LoginPresenter,
         return LoginPresenter.newInstance();
     }
 
-    @Override
-    public void onClick(View v) {
+    @OnClick({R.id.tv_login, R.id.tv_register})
+    public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
+                // 登录
                 String username = etLoginUsername.getText().toString().trim();
                 String password = etLoginPwd.getText().toString().trim();
                 if (TextUtils.isEmpty(username)) {

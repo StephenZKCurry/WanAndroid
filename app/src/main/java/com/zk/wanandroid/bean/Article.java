@@ -122,6 +122,8 @@ public class Article {
         private int visible;
         private int zan;
 
+        private int originId; // 这个参数是查询我的收藏列表返回的
+
         public String getApkLink() {
             return apkLink;
         }
@@ -256,6 +258,14 @@ public class Article {
 
         public void setZan(int zan) {
             this.zan = zan;
+        }
+
+        public int getOriginId() {
+            return originId;
+        }
+
+        public void setOriginId(int originId) {
+            this.originId = originId;
         }
     }
 }

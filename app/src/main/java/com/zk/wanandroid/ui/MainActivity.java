@@ -32,6 +32,8 @@ import com.zk.wanandroid.ui.hotsearch.CommonWebActivity;
 import com.zk.wanandroid.ui.hotsearch.SearchActivity;
 import com.zk.wanandroid.ui.knowledgesystem.KnowledgesystemFragment;
 import com.zk.wanandroid.ui.mine.LoginActivity;
+import com.zk.wanandroid.ui.mine.MyBookmarkActivity;
+import com.zk.wanandroid.ui.mine.MyCollectionActivity;
 import com.zk.wanandroid.ui.navigation.NavigationFragment;
 import com.zk.wanandroid.ui.project.ProjectFragment;
 import com.zk.wanandroid.utils.ActivityUtils;
@@ -181,6 +183,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //
 //                        break;
                     case R.id.group_item_collection:
+                        // 跳转我的收藏页面
+                        ActivityUtils.startActivity(mContext, new Intent(mContext, MyCollectionActivity.class));
+                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.group_item_bookmark:
+                        // 跳转我的书签页面
+                        ActivityUtils.startActivity(mContext, new Intent(mContext, MyBookmarkActivity.class));
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_github:
@@ -199,7 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         break;
                     case R.id.group_item_logout:
                         new MaterialDialog.Builder(mContext)
-                                .content(R.string.delete_all_search_history)
+                                .content(R.string.confirm_logout)
                                 .positiveText(R.string.dialog_confirm)
                                 .positiveColor(mContext.getResources().getColor(R.color.color_main))
                                 .negativeText(R.string.dialog_cancel)
@@ -209,7 +218,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
                                         // 退出登录
                                         SpUtils.clearSp(mContext);
-                                        // 清除cookies
+                                        // 清除cookies,不清除的话会保持登录状态，请求时还回携带cookie
                                         new SharedPrefsCookiePersistor(mContext).clear();
                                         // 退出登录通知其他页面刷新
                                         RxBus.get().send(Constant.RX_BUS_CODE_LOGIN);
@@ -380,13 +389,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             tv_name.setText(getString(R.string.click_tologin));
             civ_head.setImageResource(R.mipmap.icon_default_header);
             civ_head.setEnabled(true);
-            mNavigationView.getMenu().getItem(2).setVisible(false); // 隐藏退出登录
+            mNavigationView.getMenu().getItem(1).setVisible(false); // 隐藏我的收藏
+            mNavigationView.getMenu().getItem(2).setVisible(false); // 隐藏我的收藏
+            mNavigationView.getMenu().getItem(3).setVisible(false); // 隐藏退出登录
         } else {
             // 已经登录
             tv_name.setText(username);
             civ_head.setImageResource(R.mipmap.icon_header);
             civ_head.setEnabled(false);
+            mNavigationView.getMenu().getItem(1).setVisible(true);
             mNavigationView.getMenu().getItem(2).setVisible(true);
+            mNavigationView.getMenu().getItem(3).setVisible(true);
         }
     }
 }

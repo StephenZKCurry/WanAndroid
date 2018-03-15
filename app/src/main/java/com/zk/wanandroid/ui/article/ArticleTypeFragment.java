@@ -1,10 +1,12 @@
 package com.zk.wanandroid.ui.article;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -12,7 +14,12 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.BasePresenter;
 import com.zk.wanandroid.base.fragment.BaseMVPFragment;
 import com.zk.wanandroid.bean.Article;
+import com.zk.wanandroid.rxbus.Subscribe;
+import com.zk.wanandroid.rxbus.ThreadMode;
+import com.zk.wanandroid.ui.mine.LoginActivity;
+import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.Constant;
+import com.zk.wanandroid.utils.SpUtils;
 
 import butterknife.BindView;
 
@@ -53,7 +60,7 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
     protected void initView(View view) {
         super.initView(view);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new ArticleAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -151,14 +158,21 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.iv_collect:
-                // 收藏（取消收藏）文章
-                Article.DatasBean article = mAdapter.getItem(position);
-                if (!article.isCollect()) {
-                    // 添加收藏
-                    mPresenter.collectArticle(position, article);
-                } else {
-                    // 取消收藏
-                    mPresenter.cancelCollectArticle(position, article);
+                String username = SpUtils.getString(mContext, Constant.USER_NAME, "");
+                if (TextUtils.isEmpty(username)) {
+                    // 未登录，跳转登录页面
+                    showToast(getString(R.string.collection_no_login));
+                    ActivityUtils.startActivity(mContext, new Intent(mContext, LoginActivity.class));
+                }else {
+                    // 收藏（取消收藏）文章
+                    Article.DatasBean article = mAdapter.getItem(position);
+                    if (!article.isCollect()) {
+                        // 添加收藏
+                        mPresenter.collectArticle(position, article);
+                    } else {
+                        // 取消收藏
+                        mPresenter.cancelCollectArticle(position, article);
+                    }
                 }
                 break;
             default:
@@ -186,5 +200,13 @@ public class ArticleTypeFragment extends BaseMVPFragment<ArticleTypeContract.Art
         } else {
             mAdapter.loadMoreComplete();
         }
+    }
+
+    /**
+     * 登录或退出登录刷新
+     */
+    @Subscribe(code = Constant.RX_BUS_CODE_LOGIN, threadMode = ThreadMode.MAIN)
+    public void refreshProject() {
+        mPresenter.refresh();
     }
 }

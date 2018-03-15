@@ -57,7 +57,7 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
     protected void initView(View view) {
         super.initView(view);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new KnowledgesystemAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
     }

@@ -1,6 +1,7 @@
 package com.zk.wanandroid.api;
 
 import com.zk.wanandroid.bean.Article;
+import com.zk.wanandroid.bean.Bookmark;
 import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.HomeBanner;
@@ -150,6 +151,16 @@ public interface ApiService {
     Observable<DataResponse<User>> doRegister(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
 
     /**
+     * 收藏文章列表
+     * http://www.wanandroid.com/lg/collect/list/0/json
+     *
+     * @param page 页码，从0开始
+     * @return
+     */
+    @GET("/lg/collect/list/{page}/json")
+    Observable<DataResponse<Article>> getMyCollection(@Path("page") int page);
+
+    /**
      * 收藏站内文章
      * http://www.wanandroid.com/lg/collect/1165/json
      *
@@ -158,6 +169,19 @@ public interface ApiService {
      */
     @POST("/lg/collect/{id}/json")
     Observable<DataResponse> addCollectArticle(@Path("id") int id);
+
+    /**
+     * 收藏站外文章
+     * http://www.wanandroid.com/lg/collect/add/json
+     *
+     * @param title
+     * @param author
+     * @param link
+     * @return
+     */
+    @POST("/lg/collect/add/json")
+    @FormUrlEncoded
+    Observable<DataResponse> addOutsideCollectArticle(@Field("title") String title, @Field("author") String author, @Field("link") String link);
 
     /**
      * 文章列表取消收藏
@@ -177,5 +201,51 @@ public interface ApiService {
      * @return
      */
     @POST("/lg/uncollect/{id}/json")
-    Observable<DataResponse> removeMyCollectArticle(@Path("id") int id);
+    @FormUrlEncoded
+    Observable<DataResponse> removeMyCollectArticle(@Path("id") int id, @Field("originId") int originId);
+
+    /**
+     * 收藏网站列表
+     * http://www.wanandroid.com/lg/collect/usertools/json
+     *
+     * @return
+     */
+    @GET("/lg/collect/usertools/json")
+    Observable<DataResponse<List<Bookmark>>> getMyBookmark();
+
+    /**
+     * 收藏网站
+     * http://www.wanandroid.com/lg/collect/addtool/json
+     *
+     * @param name 网站名
+     * @param link 链接地址
+     * @return
+     */
+    @POST("/lg/collect/addtool/json")
+    @FormUrlEncoded
+    Observable<DataResponse> addBookmark(@Field("name") String name, @Field("link") String link);
+
+    /**
+     * 编辑收藏网站
+     * http://www.wanandroid.com/lg/collect/updatetool/json
+     *
+     * @param id   书签id
+     * @param name 网站名
+     * @param link 链接地址
+     * @return
+     */
+    @POST("/lg/collect/updatetool/json")
+    @FormUrlEncoded
+    Observable<DataResponse> editBookmark(@Field("id") int id, @Field("name") String name, @Field("link") String link);
+
+    /**
+     * 删除收藏网站
+     * http://www.wanandroid.com/lg/collect/deletetool/json
+     *
+     * @param id 书签id
+     * @return
+     */
+    @POST("/lg/collect/deletetool/json")
+    @FormUrlEncoded
+    Observable<DataResponse> deleteBookmark(@Field("id") int id);
 }

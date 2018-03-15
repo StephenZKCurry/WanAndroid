@@ -16,6 +16,7 @@ import com.zk.wanandroid.bean.User;
 import com.zk.wanandroid.utils.ActivityUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * @description: 注册页面
@@ -23,7 +24,7 @@ import butterknife.BindView;
  * @date: 2018/3/12 15:50
  */
 public class RegisterActivity extends BaseMVPActivity<RegisterContract.RegisterPresenter, RegisterContract.IRegisterModel>
-        implements RegisterContract.IRegisterView, View.OnClickListener {
+        implements RegisterContract.IRegisterView {
 
     @BindView(R.id.et_name)
     EditText etName;
@@ -53,7 +54,6 @@ public class RegisterActivity extends BaseMVPActivity<RegisterContract.RegisterP
     @Override
     protected void initEvent() {
         super.initEvent();
-        tvRegister.setOnClickListener(this);
     }
 
     @Override
@@ -67,28 +67,25 @@ public class RegisterActivity extends BaseMVPActivity<RegisterContract.RegisterP
         return RegisterPresenter.newInstance();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_register:
-                String username = etName.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
-                String repassword = etRepassword.getText().toString().trim();
-                if (TextUtils.isEmpty(username)) {
-                    showToast(getString(R.string.register_name));
-                } else if (TextUtils.isEmpty(password)) {
-                    showToast(getString(R.string.register_password));
-                } else if (TextUtils.isEmpty(repassword)) {
-                    showToast(getString(R.string.register_repassword));
-                } else if (!password.equals(repassword)) {
-                    showToast(getString(R.string.password_different));
-                } else {
-                    // 注册
-                    mPresenter.doRegister(username, password, repassword);
-                }
-                break;
-            default:
-                break;
+    /**
+     * 注册
+     */
+    @OnClick(R.id.tv_register)
+    public void doRegister() {
+        String username = etName.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        String repassword = etRepassword.getText().toString().trim();
+        if (TextUtils.isEmpty(username)) {
+            showToast(getString(R.string.register_name));
+        } else if (TextUtils.isEmpty(password)) {
+            showToast(getString(R.string.register_password));
+        } else if (TextUtils.isEmpty(repassword)) {
+            showToast(getString(R.string.register_repassword));
+        } else if (!password.equals(repassword)) {
+            showToast(getString(R.string.password_different));
+        } else {
+            // 注册
+            mPresenter.doRegister(username, password, repassword);
         }
     }
 

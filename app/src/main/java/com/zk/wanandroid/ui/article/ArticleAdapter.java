@@ -1,5 +1,7 @@
 package com.zk.wanandroid.ui.article;
 
+import android.text.Html;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.zk.wanandroid.R;
@@ -22,7 +24,7 @@ public class ArticleAdapter extends BaseQuickAdapter<Article.DatasBean, BaseView
     protected void convert(BaseViewHolder helper, Article.DatasBean item) {
         helper.setText(R.id.tv_author, item.getAuthor());
         helper.setText(R.id.tv_date, item.getNiceDate());
-        helper.setText(R.id.tv_title, item.getTitle());
+        helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
         helper.setText(R.id.tv_chapter, item.getChapterName());
 
         if (item.isCollect()) {

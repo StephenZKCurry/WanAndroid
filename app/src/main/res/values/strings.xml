@@ -26,6 +26,7 @@
     <string name="title_project">项目</string>
     <string name="item_history">历史记录</string>
     <string name="item_collection">我的收藏</string>
+    <string name="item_bookmark">我的书签</string>
     <string name="item_github">项目主页</string>
     <string name="item_share_project">分享项目</string>
     <string name="item_setting">设置</string>
@@ -38,12 +39,30 @@
     <string name="search_history_clear">清空</string>
     <string name="action_search">搜索</string>
     <string name="delete_all_search_history">是否删除所有搜索历史记录?</string>
+    <string name="confirm_logout">确定退出当前账号?</string>
 
     <!--收藏-->
     <string name="collection_success">收藏成功</string>
     <string name="collection_failed">收藏失败</string>
     <string name="collection_cancel_success">取消收藏成功</string>
     <string name="collection_cancel_failed">取消收藏失败</string>
+    <string name="collection_no_login">请先登录</string>
+    <string name="menu_add">添加</string>
+    <string name="menu_edit">编辑</string>
+    <string name="hint_name">请输入网站名称</string>
+    <string name="hint_title">请输入标题</string>
+    <string name="hint_author">请输入作者</string>
+    <string name="hint_link">请输入链接地址</string>
+    <string name="add_bookmark_success">添加书签成功</string>
+    <string name="add_bookmark_failed">添加书签失败</string>
+    <string name="bookmark_delete_success">删除书签成功</string>
+    <string name="bookmark_delete_failed">删除书签失败</string>
+    <string name="confirm_bookmark_delete">确定删除该条书签?</string>
+    <string name="edit_bookmark_success">编辑书签成功</string>
+    <string name="edit_bookmark_failed">编辑书签失败</string>
+    <string name="dialog_add_collection_title">新增收藏</string>
+    <string name="dialog_add_bookmark_title">新增书签</string>
+    <string name="dialog_edit_bookmark_title">编辑书签</string>
 
     <!--文章详情-->
     <string name="title_share">分享</string>

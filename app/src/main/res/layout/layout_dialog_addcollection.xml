@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/color_main">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/sp_16"
+            tools:text="@string/dialog_add_collection_title" />
+
+    </RelativeLayout>
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/ll_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10"
+        rv:rv_cornerRadius="@dimen/dp_5"
+        rv:rv_strokeColor="@color/color_divider"
+        rv:rv_strokeWidth="1dp">
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/hint_name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_16" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10"
+        rv:rv_cornerRadius="@dimen/dp_5"
+        rv:rv_strokeColor="@color/color_divider"
+        rv:rv_strokeWidth="1dp">
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/hint_title"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_16" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/ll_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10"
+        rv:rv_cornerRadius="@dimen/dp_5"
+        rv:rv_strokeColor="@color/color_divider"
+        rv:rv_strokeWidth="1dp">
+
+        <EditText
+            android:id="@+id/et_author"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/hint_author"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_16" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/ll_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10"
+        rv:rv_cornerRadius="@dimen/dp_5"
+        rv:rv_strokeColor="@color/color_divider"
+        rv:rv_strokeWidth="1dp">
+
+        <EditText
+            android:id="@+id/et_link"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/hint_link"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_16" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="@string/dialog_cancel"
+            android:textColor="@color/color_main"
+            android:textSize="@dimen/sp_16"
+            rv:rv_backgroundColor="@color/color_divider"
+            rv:rv_cornerRadius="@dimen/dp_5"
+            rv:rv_isRippleEnable="true"
+            rv:rv_strokeColor="@color/color_divider"
+            rv:rv_strokeWidth="1dp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="@string/dialog_confirm"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/sp_16"
+            rv:rv_backgroundColor="@color/color_main"
+            rv:rv_cornerRadius="@dimen/dp_5"
+            rv:rv_isRippleEnable="true"
+            rv:rv_strokeColor="@color/color_divider"
+            rv:rv_strokeWidth="1dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

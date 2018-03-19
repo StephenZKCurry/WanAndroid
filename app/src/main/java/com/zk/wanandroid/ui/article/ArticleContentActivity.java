@@ -92,6 +92,7 @@ public class ArticleContentActivity extends BaseMVPActivity<ArticleContentContra
             startActivity(intent);
         } else if (item.getItemId() == R.id.menu_collect) {
             // 收藏
+            // 由于所有打开的网页都使用此页面，判断收藏种类（站内文章、站外文章、网站）比较麻烦，暂时去掉收藏功能
 
         } else if (item.getItemId() == R.id.menu_copy) {
             // 复制到剪贴板

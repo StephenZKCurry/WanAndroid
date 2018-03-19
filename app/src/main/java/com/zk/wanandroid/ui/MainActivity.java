@@ -198,12 +198,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_share_project:
+                        // 分享项目
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_article_url, getString(R.string.app_name), "https://github.com/StephenZKCurry/WanAndroid", "这个App贼好用，快下载体验吧~"));
+                        intent.setType("text/plain");
+                        startActivity(intent);
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_setting:
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_about:
+                        ActivityUtils.startActivity(mContext, new Intent(mContext, AboutActivity.class));
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_logout:

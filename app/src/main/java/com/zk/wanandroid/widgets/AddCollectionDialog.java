@@ -22,7 +22,7 @@ import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.Constant;
 
 /**
- * @description: 添加站外文章收藏PopupWindow
+ * @description: 添加站外文章收藏Dialog
  * @author: zhukai
  * @date: 2018/3/14 15:36
  */

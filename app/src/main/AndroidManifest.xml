@@ -68,6 +68,10 @@
         <activity
             android:name=".ui.mine.MyBookmarkActivity"
             android:screenOrientation="portrait" />
+        <!-- 关于页面 -->
+        <activity
+            android:name=".ui.AboutActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

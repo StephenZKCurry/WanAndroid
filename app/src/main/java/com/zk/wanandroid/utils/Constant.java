@@ -39,4 +39,7 @@ public class Constant {
     public final static int RX_BUS_CODE_ADD_COLLECTION = 1; // 添加站外文章收藏
     public final static int RX_BUS_CODE_ADD_BOOKMARK = 2; // 添加书签
     public final static int RX_BUS_CODE_EDIT_BOOKMARK = 3; // 编辑书签
+
+    // Bugly
+    public static final String BUGLY_ID = "5b1002969a"; // bugly注册的appid
 }

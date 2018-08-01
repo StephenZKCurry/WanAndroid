@@ -3,7 +3,6 @@
     xmlns:rv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_login"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -97,11 +96,11 @@
             android:gravity="center"
             android:padding="@dimen/dp_10"
             android:text="@string/login"
-            android:textColor="@color/color_main"
+            android:textColor="@color/font_default"
             android:textSize="@dimen/sp_16"
             rv:rv_cornerRadius="@dimen/dp_10"
             rv:rv_isRippleEnable="true"
-            rv:rv_strokeColor="@color/color_main"
+            rv:rv_strokeColor="@color/font_default"
             rv:rv_strokeWidth="1dp" />
 
         <RelativeLayout
@@ -116,7 +115,6 @@
                 android:layout_marginRight="@dimen/dp_30"
                 android:gravity="center"
                 android:text="@string/login_register"
-                android:textColor="@color/color_main"
                 android:textSize="@dimen/sp_16" />
 
         </RelativeLayout>

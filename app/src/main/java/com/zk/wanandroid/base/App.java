@@ -3,16 +3,13 @@ package com.zk.wanandroid.base;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.multidex.MultiDex;
+import android.support.v7.app.AppCompatDelegate;
 
-import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.tinker.loader.app.TinkerApplication;
-import com.tencent.tinker.loader.shareutil.ShareConstants;
 import com.zk.wanandroid.db.DaoMaster;
 import com.zk.wanandroid.db.DaoSession;
-import com.zk.wanandroid.utils.ApkUtils;
 import com.zk.wanandroid.utils.Constant;
+import com.zk.wanandroid.utils.SpUtils;
 
 /**
  * @description: app初始化
@@ -30,16 +27,10 @@ public class App extends Application {
         super.onCreate();
         mContext = this;
         application = this;
-        initBugly();
+        initChangeSkin(); // 初始化更换皮肤
         setDatabase();
-    }
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(base);
-        // 安装tinker
-        Beta.installTinker();
+        // 初始化Bugly
+        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, true);
     }
 
     public static Context getContext() {
@@ -48,21 +39,6 @@ public class App extends Application {
 
     public static App getApplication() {
         return application;
-    }
-
-    /**
-     * 初始化Bugly
-     */
-    private void initBugly() {
-        // 获取当前包名
-        String packageName = getApplicationContext().getPackageName();
-        // 获取当前进程名
-        String processName = ApkUtils.getProcessName(android.os.Process.myPid());
-        // 设置是否为上报进程
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
-        strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        // 初始化Bugly
-        CrashReport.initCrashReport(getApplicationContext(), Constant.BUGLY_ID, false, strategy);
     }
 
     /**
@@ -83,4 +59,15 @@ public class App extends Application {
         return mDaoSession;
     }
 
+    /**
+     * 初始化更换皮肤
+     */
+    private void initChangeSkin() {
+        //切换为默认皮肤
+        if (!SpUtils.getBoolean(mContext, Constant.NIGHT_MODEL, false)) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+    }
 }

@@ -29,7 +29,7 @@
     <string name="item_bookmark">我的书签</string>
     <string name="item_github">项目主页</string>
     <string name="item_share_project">分享项目</string>
-    <string name="item_setting">设置</string>
+    <string name="item_setting">切换主题</string>
     <string name="item_about">关于</string>
     <string name="item_logout">退出登录</string>
     <string name="click_tologin">点击头像登录</string>

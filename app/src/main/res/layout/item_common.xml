@@ -17,6 +17,7 @@
         android:textSize="@dimen/sp_14"
         rv:rv_backgroundColor="@color/color_white"
         rv:rv_cornerRadius="@dimen/dp_20"
+        android:textColor="@color/font_default"
         rv:rv_isRippleEnable="true"
         rv:rv_strokeColor="@color/color_divider"
         rv:rv_strokeWidth="1dp"

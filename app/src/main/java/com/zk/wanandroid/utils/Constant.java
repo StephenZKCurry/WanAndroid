@@ -25,7 +25,7 @@ public class Constant {
     public static final int REQUEST_FAIL = -1;  // 请求失败
 
     // 用户信息
-    public static final String USER_ID = "user_id"; // 密码
+    public static final String USER_ID = "user_id"; // 用户id
     public static final String USER_NAME = "user_name"; // 用户名
     public static final String USER_PASSWORD = "user_password"; // 密码
 
@@ -42,4 +42,7 @@ public class Constant {
 
     // Bugly
     public static final String BUGLY_ID = "5b1002969a"; // bugly注册的appid
+
+    // 夜间模式
+    public static final String NIGHT_MODEL = "night_model";
 }

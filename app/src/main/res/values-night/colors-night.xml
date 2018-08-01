@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#16A0E8</color>
-    <color name="colorPrimaryDark">#16A0E8</color>
-    <color name="colorAccent">#239ffe</color>
+    <color name="colorPrimary">#212a2f</color>
+    <color name="colorPrimaryDark">#212a2f</color>
+    <color name="colorAccent">#212a2f</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#000000</color>
-    <color name="color_main">#16A0E8</color>
+    <color name="color_main">#212a2f</color>
     <color name="color_divider">#66cacaca</color>
     <color name="color_transparent">#00000000</color>
     <!-- 字体颜色 -->

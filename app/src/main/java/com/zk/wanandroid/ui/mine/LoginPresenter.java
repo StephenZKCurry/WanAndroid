@@ -44,10 +44,10 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
                     @Override
                     public void accept(DataResponse<User> dataResponse) throws Exception {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
-                            // 注册成功
+                            // 登录成功
                             mIView.showLoginSuccess(dataResponse.getData());
                         } else {
-                            // 注册失败
+                            // 登录失败
                             mIView.showLoginFaild(dataResponse.getErrorMsg());
                         }
                         mIView.hideProgressDialog();

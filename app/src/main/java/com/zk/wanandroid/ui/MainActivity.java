@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -206,6 +207,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_setting:
+                        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+                            @Override
+                            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+                            }
+
+                            @Override
+                            public void onDrawerOpened(@NonNull View drawerView) {
+
+                            }
+
+                            @Override
+                            public void onDrawerClosed(@NonNull View drawerView) {
+                                // 切换夜间主题
+                                switchNight(SpUtils.getBoolean(mContext, Constant.NIGHT_MODEL, false));
+                            }
+
+                            @Override
+                            public void onDrawerStateChanged(int newState) {
+
+                            }
+                        });
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.group_item_about:
@@ -407,5 +430,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mNavigationView.getMenu().getItem(2).setVisible(true);
             mNavigationView.getMenu().getItem(3).setVisible(true);
         }
+    }
+
+    /**
+     * 切换主题
+     *
+     * @param isNight
+     */
+    private void switchNight(final boolean isNight) {
+        if (isNight) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            SpUtils.setBoolean(mContext, Constant.NIGHT_MODEL, false);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            SpUtils.setBoolean(mContext, Constant.NIGHT_MODEL, true);
+        }
+        getWindow().setWindowAnimations(R.style.WindowAnimationFadeInOut);
+        recreate();
     }
 }

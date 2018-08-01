@@ -13,7 +13,6 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.manager.AppManager;
 import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ActivityUtils;
-import com.zk.wanandroid.utils.SystemStatusManager;
 import com.zk.wanandroid.utils.ToastUtils;
 import com.zk.wanandroid.widgets.WaitPorgressDialog;
 
@@ -36,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppManager.getAppManager().addActivity(this);
+//        AppManager.getAppManager().addActivity(this);
         mContext = this;
         TAG = getClass().getSimpleName();
         Log.d(TAG, "onCreate()");
@@ -80,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppManager.getAppManager().finishActivity(this);
+//        AppManager.getAppManager().finishActivity(this);
         RxBus.get().unRegister(mContext); // 取消注册RxBus
         unbinder.unbind();
         Log.d(TAG, "onDestroy()");

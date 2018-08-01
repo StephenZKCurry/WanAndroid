@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
-// 依赖插件脚本
-apply from: 'tinker-support.gradle'
 
 android {
     compileSdkVersion 26
@@ -29,12 +27,12 @@ android {
             maven { url "https://jitpack.io" }
         }
     }
-    defaultConfig {
-        ndk {
-            // 设置支持的so库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-        }
-    }
+//    defaultConfig {
+//        ndk {
+//            // 设置支持的so库架构
+//            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+//        }
+//    }
 }
 
 dependencies {
@@ -91,13 +89,6 @@ dependencies {
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
     // 垂直ViewPager
     implementation 'me.kaelaela:verticalviewpager:1.0.0@aar'
-    // Bugly
-    // 异常上报sdk
-//    implementation 'com.tencent.bugly:crashreport:latest.release'
-    // 升级sdk
-    compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
-    // NDK
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
-    // 多dex
-    implementation 'com.android.support:multidex:1.0.1'
+    // Bugly异常上报
+    implementation 'com.tencent.bugly:crashreport:2.2.0'
 }

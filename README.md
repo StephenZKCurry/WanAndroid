@@ -6,9 +6,9 @@
 
 作为MVP结构的练手项目，目前还不完善，存在一些小问题，后面有时间会不断修改。
 
-## 2.Apk下载##
+## 2.Apk下载
 
-[点击下载](https://github.com/StephenZKCurry/WanAndroid/tree/master/app/release/app-release.apk)
+[点击下载](https://fir.im/k5uh)
 
 ## 3.功能描述
 
@@ -46,7 +46,7 @@
 
 **Bugly异常上报**
 
-## 5.项目截图##
+## 5.项目截图
 
 ![](screenshots/splash.png) ![](screenshots/home.png)
 

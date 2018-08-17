@@ -2,7 +2,7 @@
 
 ## 1.项目说明
 
-此项目为鸿洋大神WanAndroid网站（http://www.wanandroid.com）的安卓版，采用Java编写。感谢洋神提供的API接口，项目采用MVP+Retrofit+RxJava框架，页面风格基于Material Design。
+此项目为鸿洋大神WanAndroid网站[www.wanandroid.com](http://www.wanandroid.com/)安卓版，采用Java编写。感谢洋神提供的API接口，项目采用MVP+Retrofit+RxJava框架，页面风格基于Material Design。
 
 作为MVP结构的练手项目，目前还不完善，存在一些小问题，后面有时间会不断修改。
 

@@ -246,8 +246,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
                                         // 退出登录
-                                        SpUtils.clearSp(mContext);
-                                        // 清除cookies,不清除的话会保持登录状态，请求时还回携带cookie
+//                                        SpUtils.clearSp(mContext);
+                                        SpUtils.setString(mContext, Constant.USER_ID, "");
+                                        SpUtils.setString(mContext, Constant.USER_NAME, "");
+                                        // 清除cookies,不清除的话会保持登录状态，请求时还会携带cookie
                                         new SharedPrefsCookiePersistor(mContext).clear();
                                         // 退出登录通知其他页面刷新
                                         RxBus.get().send(Constant.RX_BUS_CODE_LOGIN);

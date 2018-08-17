@@ -79,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // 这里不采用Activity管理栈是因为切换夜间主题后调用recreate()后会执行OnDestory()
 //        AppManager.getAppManager().finishActivity(this);
         RxBus.get().unRegister(mContext); // 取消注册RxBus
         unbinder.unbind();

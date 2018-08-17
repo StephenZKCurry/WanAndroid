@@ -34,7 +34,7 @@ public interface ApiService {
      * @param page 页码，从0开始
      * @return
      */
-    @GET("/article/list/{page}/json")
+    @GET("article/list/{page}/json")
     Observable<DataResponse<Article>> getHomeArticles(@Path("page") int page);
 
     /**
@@ -43,7 +43,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/banner/json")
+    @GET("banner/json")
     Observable<DataResponse<List<HomeBanner>>> getHomeBanners();
 
     /**
@@ -52,7 +52,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/friend/json")
+    @GET("friend/json")
     Observable<DataResponse<List<CommonWeb>>> getCommonWeb();
 
     /**
@@ -61,7 +61,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/hotkey/json")
+    @GET("hotkey/json")
     Observable<DataResponse<List<CommonWeb>>> getHotSearch();
 
     /**
@@ -72,7 +72,7 @@ public interface ApiService {
      * @param key  搜索关键词
      * @return
      */
-    @POST("/article/query/{page}/json")
+    @POST("article/query/{page}/json")
     @FormUrlEncoded
     Observable<DataResponse<Article>> getSearchArticles(@Path("page") int page, @Field("k") String key);
 
@@ -82,7 +82,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/tree/json")
+    @GET("tree/json")
     Observable<DataResponse<List<KnowledgeSystem>>> getKnowledgeSystems();
 
     /**
@@ -93,7 +93,7 @@ public interface ApiService {
      * @param cid  分类的id，即知识体系二级目录的id
      * @return
      */
-    @GET("/article/list/{page}/json")
+    @GET("article/list/{page}/json")
     Observable<DataResponse<Article>> getKnowledgeSystemsArticles(@Path("page") int page, @Query("cid") int cid);
 
     /**
@@ -102,7 +102,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/navi/json")
+    @GET("navi/json")
     Observable<DataResponse<List<Navigation>>> getNavigation();
 
     /**
@@ -111,7 +111,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/project/tree/json")
+    @GET("project/tree/json")
     Observable<DataResponse<List<KnowledgeSystem>>> getProjectType();
 
     /**
@@ -122,7 +122,7 @@ public interface ApiService {
      * @param cid  项目分类的id
      * @return
      */
-    @GET("/project/list/{page}/json")
+    @GET("project/list/{page}/json")
     Observable<DataResponse<Project>> getProjectList(@Path("page") int page, @Query("cid") int cid);
 
     /**
@@ -133,7 +133,7 @@ public interface ApiService {
      * @param password 密码
      * @return
      */
-    @POST("/user/login")
+    @POST("user/login")
     @FormUrlEncoded
     Observable<DataResponse<User>> doLogin(@Field("username") String username, @Field("password") String password);
 
@@ -146,7 +146,7 @@ public interface ApiService {
      * @param repassword 确认密码
      * @return
      */
-    @POST("/user/register")
+    @POST("user/register")
     @FormUrlEncoded
     Observable<DataResponse<User>> doRegister(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
 
@@ -157,7 +157,7 @@ public interface ApiService {
      * @param page 页码，从0开始
      * @return
      */
-    @GET("/lg/collect/list/{page}/json")
+    @GET("lg/collect/list/{page}/json")
     Observable<DataResponse<Article>> getMyCollection(@Path("page") int page);
 
     /**
@@ -167,7 +167,7 @@ public interface ApiService {
      * @param id 文章id
      * @return
      */
-    @POST("/lg/collect/{id}/json")
+    @POST("lg/collect/{id}/json")
     Observable<DataResponse> addCollectArticle(@Path("id") int id);
 
     /**
@@ -179,7 +179,7 @@ public interface ApiService {
      * @param link
      * @return
      */
-    @POST("/lg/collect/add/json")
+    @POST("lg/collect/add/json")
     @FormUrlEncoded
     Observable<DataResponse> addOutsideCollectArticle(@Field("title") String title, @Field("author") String author, @Field("link") String link);
 
@@ -190,7 +190,7 @@ public interface ApiService {
      * @param id 文章id
      * @return
      */
-    @POST("/lg/uncollect_originId/{id}/json")
+    @POST("lg/uncollect_originId/{id}/json")
     Observable<DataResponse> removeCollectArticle(@Path("id") int id);
 
     /**
@@ -200,7 +200,7 @@ public interface ApiService {
      * @param id
      * @return
      */
-    @POST("/lg/uncollect/{id}/json")
+    @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded
     Observable<DataResponse> removeMyCollectArticle(@Path("id") int id, @Field("originId") int originId);
 
@@ -210,7 +210,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/lg/collect/usertools/json")
+    @GET("lg/collect/usertools/json")
     Observable<DataResponse<List<Bookmark>>> getMyBookmark();
 
     /**
@@ -221,7 +221,7 @@ public interface ApiService {
      * @param link 链接地址
      * @return
      */
-    @POST("/lg/collect/addtool/json")
+    @POST("lg/collect/addtool/json")
     @FormUrlEncoded
     Observable<DataResponse> addBookmark(@Field("name") String name, @Field("link") String link);
 
@@ -234,7 +234,7 @@ public interface ApiService {
      * @param link 链接地址
      * @return
      */
-    @POST("/lg/collect/updatetool/json")
+    @POST("lg/collect/updatetool/json")
     @FormUrlEncoded
     Observable<DataResponse> editBookmark(@Field("id") int id, @Field("name") String name, @Field("link") String link);
 
@@ -245,7 +245,7 @@ public interface ApiService {
      * @param id 书签id
      * @return
      */
-    @POST("/lg/collect/deletetool/json")
+    @POST("lg/collect/deletetool/json")
     @FormUrlEncoded
     Observable<DataResponse> deleteBookmark(@Field("id") int id);
 }

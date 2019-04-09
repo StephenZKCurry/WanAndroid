@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import me.kaelaela.verticalviewpager.VerticalViewPager;
-import me.kaelaela.verticalviewpager.transforms.DefaultTransformer;
+import cn.youngkaaa.yviewpager.YViewPager;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
 
 /**
@@ -30,7 +29,7 @@ public class NavigationFragment extends BaseMVPFragment<NavigationContract.Navig
     @BindView(R.id.tl_tabs)
     VerticalTabLayout mTabLayout;
     @BindView(R.id.vp_tabs)
-    VerticalViewPager mViewPager;
+    YViewPager mViewPager;
 
     private List<Fragment> mFragments;
     private NavigationFragmentAdapter mAdapter;
@@ -84,7 +83,6 @@ public class NavigationFragment extends BaseMVPFragment<NavigationContract.Navig
         mAdapter = new NavigationFragmentAdapter(getChildFragmentManager(), mFragments, navigations);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(navigations.size());
-        mViewPager.setPageTransformer(false, new DefaultTransformer());
         mTabLayout.setBackgroundColor(getResources().getColor(R.color.color_divider));
         mTabLayout.setupWithViewPager(mViewPager);
     }

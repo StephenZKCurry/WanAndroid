@@ -29,7 +29,7 @@ public interface ApiService {
 
     /**
      * 首页文章列表
-     * http://www.wanandroid.com/article/list/0/json
+     * https://www.wanandroid.com/article/list/0/json
      *
      * @param page 页码，从0开始
      * @return
@@ -39,7 +39,7 @@ public interface ApiService {
 
     /**
      * 首页banner
-     * http://www.wanandroid.com/banner/json
+     * https://www.wanandroid.com/banner/json
      *
      * @return
      */
@@ -48,7 +48,7 @@ public interface ApiService {
 
     /**
      * 常用网站
-     * http://www.wanandroid.com/friend/json
+     * https://www.wanandroid.com/friend/json
      *
      * @return
      */
@@ -57,7 +57,7 @@ public interface ApiService {
 
     /**
      * 搜索热词
-     * http://www.wanandroid.com/hotkey/json
+     * https://www.wanandroid.com/hotkey/json
      *
      * @return
      */
@@ -66,7 +66,7 @@ public interface ApiService {
 
     /**
      * 搜索文章
-     * http://www.wanandroid.com/article/query/0/json
+     * https://www.wanandroid.com/article/query/0/json
      *
      * @param page 页码，从0开始
      * @param key  搜索关键词
@@ -78,7 +78,7 @@ public interface ApiService {
 
     /**
      * 知识体系
-     * http://www.wanandroid.com/tree/json
+     * https://www.wanandroid.com/tree/json
      *
      * @return
      */
@@ -87,7 +87,7 @@ public interface ApiService {
 
     /**
      * 知识体系下的文章
-     * http://www.wanandroid.com/article/list/0/json?cid=60
+     * https://www.wanandroid.com/article/list/0/json?cid=60
      *
      * @param page 页码，从0开始
      * @param cid  分类的id，即知识体系二级目录的id
@@ -98,7 +98,7 @@ public interface ApiService {
 
     /**
      * 导航数据
-     * http://www.wanandroid.com/navi/json
+     * https://www.wanandroid.com/navi/json
      *
      * @return
      */
@@ -107,7 +107,7 @@ public interface ApiService {
 
     /**
      * 项目分类
-     * http://www.wanandroid.com/project/tree/json
+     * https://www.wanandroid.com/project/tree/json
      *
      * @return
      */
@@ -116,7 +116,7 @@ public interface ApiService {
 
     /**
      * 某一个分类下的项目列表
-     * http://www.wanandroid.com/project/list/1/json?cid=294
+     * https://www.wanandroid.com/project/list/1/json?cid=294
      *
      * @param page 页码，从1开始
      * @param cid  项目分类的id
@@ -127,7 +127,7 @@ public interface ApiService {
 
     /**
      * 登录
-     * http://www.wanandroid.com/user/login
+     * https://www.wanandroid.com/user/login
      *
      * @param username 用户名
      * @param password 密码
@@ -139,7 +139,7 @@ public interface ApiService {
 
     /**
      * 注册
-     * http://www.wanandroid.com/user/register
+     * https://www.wanandroid.com/user/register
      *
      * @param username   用户名
      * @param password   密码
@@ -152,7 +152,7 @@ public interface ApiService {
 
     /**
      * 收藏文章列表
-     * http://www.wanandroid.com/lg/collect/list/0/json
+     * https://www.wanandroid.com/lg/collect/list/0/json
      *
      * @param page 页码，从0开始
      * @return
@@ -162,7 +162,7 @@ public interface ApiService {
 
     /**
      * 收藏站内文章
-     * http://www.wanandroid.com/lg/collect/1165/json
+     * https://www.wanandroid.com/lg/collect/1165/json
      *
      * @param id 文章id
      * @return
@@ -172,7 +172,7 @@ public interface ApiService {
 
     /**
      * 收藏站外文章
-     * http://www.wanandroid.com/lg/collect/add/json
+     * https://www.wanandroid.com/lg/collect/add/json
      *
      * @param title
      * @param author
@@ -185,7 +185,7 @@ public interface ApiService {
 
     /**
      * 文章列表取消收藏
-     * http://www.wanandroid.com/lg/uncollect_originId/2333/json
+     * https://www.wanandroid.com/lg/uncollect_originId/2333/json
      *
      * @param id 文章id
      * @return
@@ -195,7 +195,7 @@ public interface ApiService {
 
     /**
      * 我的收藏取消收藏
-     * http://www.wanandroid.com/lg/uncollect/2805/json
+     * https://www.wanandroid.com/lg/uncollect/2805/json
      *
      * @param id
      * @return
@@ -206,7 +206,7 @@ public interface ApiService {
 
     /**
      * 收藏网站列表
-     * http://www.wanandroid.com/lg/collect/usertools/json
+     * https://www.wanandroid.com/lg/collect/usertools/json
      *
      * @return
      */
@@ -215,7 +215,7 @@ public interface ApiService {
 
     /**
      * 收藏网站
-     * http://www.wanandroid.com/lg/collect/addtool/json
+     * https://www.wanandroid.com/lg/collect/addtool/json
      *
      * @param name 网站名
      * @param link 链接地址
@@ -227,7 +227,7 @@ public interface ApiService {
 
     /**
      * 编辑收藏网站
-     * http://www.wanandroid.com/lg/collect/updatetool/json
+     * https://www.wanandroid.com/lg/collect/updatetool/json
      *
      * @param id   书签id
      * @param name 网站名
@@ -240,7 +240,7 @@ public interface ApiService {
 
     /**
      * 删除收藏网站
-     * http://www.wanandroid.com/lg/collect/deletetool/json
+     * https://www.wanandroid.com/lg/collect/deletetool/json
      *
      * @param id 书签id
      * @return

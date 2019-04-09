@@ -42,7 +42,6 @@ import com.zk.wanandroid.utils.Constant;
 import com.zk.wanandroid.utils.NavigationUtils;
 import com.zk.wanandroid.utils.SpUtils;
 import com.zk.wanandroid.utils.SystemStatusManager;
-import com.zk.wanandroid.widgets.helper.BottomNavigationViewHelper;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -99,6 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         // recreate时记录当前位置(在Manifest已禁止Activity旋转,所以旋转屏幕并不会执行以下代码)
         outState.putInt(POSITION, position);
         outState.putInt(SELECT_ITEM, mBottomNavigationView.getSelectedItemId());
@@ -141,8 +141,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initEvent() {
         super.initEvent();
-        // BottomNavigationView禁止3个item以上动画切换效果
-        BottomNavigationViewHelper.disableShiftMode(mBottomNavigationView);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
                 .OnNavigationItemSelectedListener() {
             @Override

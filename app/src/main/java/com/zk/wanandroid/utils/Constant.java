@@ -8,7 +8,7 @@ package com.zk.wanandroid.utils;
 public class Constant {
 
     // 请求基地址
-    public static final String BASE_URL = "http://wanandroid.com/";
+    public static final String BASE_URL = "https://wanandroid.com/";
 
     // 每页数量
     public static final int PAGE_SIZE = 20;

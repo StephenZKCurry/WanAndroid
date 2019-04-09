@@ -39,7 +39,7 @@ public class RegisterPresenter extends RegisterContract.RegisterPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后...");
+        mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.doRegister(username, password, repassword)
                 .subscribe(new Consumer<DataResponse<User>>() {
                     @Override

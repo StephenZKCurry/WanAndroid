@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/dp_10"
-    android:layout_marginRight="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/dp_5">
 
@@ -52,10 +52,9 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_5"
+            style="@style/textview_default"
             android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginBottom="@dimen/dp_5"
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="@dimen/sp_14"

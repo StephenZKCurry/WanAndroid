@@ -19,6 +19,7 @@
             android:layout_alignParentBottom="true"
             app:itemIconTint="@drawable/nav_item_color_state"
             app:itemTextColor="@drawable/nav_item_color_state"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/menu_bottom_navigation" />
 
         <android.support.design.widget.CoordinatorLayout

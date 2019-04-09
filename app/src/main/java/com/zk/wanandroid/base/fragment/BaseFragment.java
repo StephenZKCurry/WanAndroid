@@ -87,7 +87,6 @@ public abstract class BaseFragment extends Fragment {
      * 初始化事件
      */
     protected void initEvent() {
-
     }
 
     /**

@@ -36,7 +36,7 @@ public class CommonWebPresenter extends CommonWebContract.CommonWebPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后...");
+        mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.loadCommonWeb()
                 .subscribe(new Consumer<DataResponse<List<CommonWeb>>>() {
                     @Override

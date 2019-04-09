@@ -36,11 +36,13 @@ public class ProjectPresenter extends ProjectContract.ProjectPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
+        mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.getProjectType()
                 .subscribe(new Consumer<DataResponse<List<KnowledgeSystem>>>() {
                     @Override
                     public void accept(DataResponse<List<KnowledgeSystem>> dataResponse) throws Exception {
                         mIView.setProjectType(dataResponse.getData());
+                        mIView.hideProgressDialog();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -51,6 +53,7 @@ public class ProjectPresenter extends ProjectContract.ProjectPresenter {
                         } else {
                             mIView.showFaild(throwable.getMessage());
                         }
+                        mIView.hideProgressDialog();
                     }
                 }));
     }

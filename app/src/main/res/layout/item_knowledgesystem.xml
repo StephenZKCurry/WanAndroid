@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/dp_10"
-    android:layout_marginRight="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="@dimen/dp_5">
 
@@ -34,15 +34,15 @@
                 style="@style/textview_default"
                 android:layout_margin="@dimen/dp_5"
                 android:textColor="@color/color_main"
-                tools:text="开发环境"
-                android:textSize="@dimen/sp_16"/>
+                android:textSize="@dimen/sp_16"
+                tools:text="开发环境" />
 
             <TextView
                 android:id="@+id/tv_second"
                 style="@style/textview_default"
                 android:layout_margin="@dimen/dp_5"
-                tools:text="Android Studio相关"
-                android:textSize="@dimen/sp_14"/>
+                android:textSize="@dimen/sp_14"
+                tools:text="Android Studio相关" />
 
         </LinearLayout>
 

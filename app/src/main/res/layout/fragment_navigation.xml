@@ -14,10 +14,11 @@
         app:tab_height="@dimen/dp_50"
         app:tab_mode="scrollable" />
 
-    <me.kaelaela.verticalviewpager.VerticalViewPager
+    <cn.youngkaaa.yviewpager.YViewPager
         android:id="@+id/vp_tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"></me.kaelaela.verticalviewpager.VerticalViewPager>
+        android:overScrollMode="never"
+        app:orientation="vertical" />
 
 </LinearLayout>

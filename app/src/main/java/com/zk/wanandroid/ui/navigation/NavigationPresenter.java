@@ -36,7 +36,7 @@ public class NavigationPresenter extends NavigationContract.NavigationPresenter 
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后...");
+        mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.getNavigation()
                 .subscribe(new Consumer<DataResponse<List<Navigation>>>() {
                     @Override

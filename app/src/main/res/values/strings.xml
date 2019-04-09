@@ -72,6 +72,6 @@
     <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
     <string name="copy_link_success">已复制链接</string>
 
-    <string name="no_network_connection">网络连接不可用,请检查网络设置・・・</string>
-    <string name="request_error">"网络连接超时,请稍后再试・・・"</string>
+    <string name="no_network_connection">网络连接不可用,请检查网络设置</string>
+    <string name="request_error">"网络连接超时,请稍后再试"</string>
 </resources>

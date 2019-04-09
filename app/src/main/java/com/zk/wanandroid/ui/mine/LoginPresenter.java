@@ -38,7 +38,7 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后...");
+        mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.doLogin(username, password)
                 .subscribe(new Consumer<DataResponse<User>>() {
                     @Override

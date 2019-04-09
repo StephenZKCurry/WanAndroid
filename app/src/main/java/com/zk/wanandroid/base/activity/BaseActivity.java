@@ -26,21 +26,21 @@ import butterknife.Unbinder;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    protected String TAG = getClass().getSimpleName();
     protected Context mContext;
     protected WaitPorgressDialog mWaitPorgressDialog;
     protected Toolbar mToolbar;
-    protected String TAG;
     private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        AppManager.getAppManager().addActivity(this);
         mContext = this;
-        TAG = getClass().getSimpleName();
         Log.d(TAG, "onCreate()");
-        setContentView(getContentViewId());
+        // 将activity添加到任务栈
+//        AppManager.getAppManager().addActivity(this);
         RxBus.get().register(this); // 注册RxBus
+        setContentView(getContentViewId());
         initView();
         initData();
         initEvent();
@@ -106,7 +106,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化数据
      */
     protected void initData() {
-
     }
 
     /**
@@ -119,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化toolbar
      */
     private void initToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         if (mToolbar == null) {
             throw new NullPointerException("toolbar can not be null");
         }

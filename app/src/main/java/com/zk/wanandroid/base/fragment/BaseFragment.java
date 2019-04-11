@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ToastUtils;
@@ -118,5 +119,18 @@ public abstract class BaseFragment extends Fragment {
         if (mWaitPorgressDialog != null) {
             mWaitPorgressDialog.dismiss();
         }
+    }
+
+    /**
+     * 隐藏软键盘
+     *
+     * @return true:隐藏成功 false:隐藏失败
+     */
+    protected boolean hiddenKeyboard() {
+        // 点击空白位置 隐藏软键盘
+        InputMethodManager mInputMethodManager = (InputMethodManager) mContext.getSystemService
+                (Context.INPUT_METHOD_SERVICE);
+        return mInputMethodManager.hideSoftInputFromWindow(getActivity()
+                .getCurrentFocus().getWindowToken(), 0);
     }
 }

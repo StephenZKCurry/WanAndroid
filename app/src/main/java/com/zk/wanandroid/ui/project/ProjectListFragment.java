@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,8 +42,12 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
 
     private ProjectListAdapter mAdapter;
 
-    public static ProjectListFragment newInstance() {
+    private int projectTypeId; // 项目类型id
+    private static final String PROJECT_TYPE_ID = "project_type_id";
+
+    public static ProjectListFragment newInstance(int projectTypeId) {
         Bundle args = new Bundle();
+        args.putInt(PROJECT_TYPE_ID, projectTypeId);
         ProjectListFragment fragment = new ProjectListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,7 +61,7 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
     @Override
     protected void initView(View view) {
         super.initView(view);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.color_main));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new ProjectListAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
@@ -65,8 +70,9 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
     @Override
     protected void initData() {
         super.initData();
+        projectTypeId = getArguments().getInt(PROJECT_TYPE_ID);
         showRefreshView(true);
-        mPresenter.loadProjectList(Integer.parseInt(typeId), 1);
+        mPresenter.loadProjectList(projectTypeId, 1);
     }
 
     @Override
@@ -178,7 +184,7 @@ public class ProjectListFragment extends BaseMVPFragment<ProjectListContract.Pro
                     // 未登录，跳转登录页面
                     showToast(getString(R.string.collection_no_login));
                     ActivityUtils.startActivity(mContext, new Intent(mContext, LoginActivity.class));
-                }else {
+                } else {
                     // 收藏（取消收藏）项目
                     Project.DatasBean project = mAdapter.getItem(position);
                     if (!project.isCollect()) {

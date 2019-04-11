@@ -25,6 +25,7 @@ public class KnowledgeSystem implements Serializable {
     private int order;
     private int parentChapterId;
     private int visible;
+    private boolean userControlSetTop; // 是否置顶，用于公众号列表
     private List<ChildrenBean> children;
 
     public int getCourseId() {
@@ -73,6 +74,14 @@ public class KnowledgeSystem implements Serializable {
 
     public void setVisible(int visible) {
         this.visible = visible;
+    }
+
+    public boolean isUserControlSetTop() {
+        return userControlSetTop;
+    }
+
+    public void setUserControlSetTop(boolean userControlSetTop) {
+        this.userControlSetTop = userControlSetTop;
     }
 
     public List<ChildrenBean> getChildren() {

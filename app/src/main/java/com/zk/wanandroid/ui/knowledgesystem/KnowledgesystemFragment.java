@@ -3,6 +3,7 @@ package com.zk.wanandroid.ui.knowledgesystem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,7 +57,7 @@ public class KnowledgesystemFragment extends BaseMVPFragment<KnowledgesystemCont
     @Override
     protected void initView(View view) {
         super.initView(view);
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.color_main));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new KnowledgesystemAdapter(null);
         mRecyclerView.setAdapter(mAdapter);

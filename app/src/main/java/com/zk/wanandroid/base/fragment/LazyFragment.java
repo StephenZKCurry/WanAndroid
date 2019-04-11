@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.utils.ToastUtils;
@@ -30,8 +31,6 @@ public abstract class LazyFragment extends Fragment {
      * 注2: 如果是通过FragmentTransaction的show和hide的方法来控制显示，调用的是onHiddenChanged
      * 注3: 针对初始就show的Fragment，为了触发onHiddenChanged事件达到lazy效果需要先hide再show
      */
-    protected String title; // 标题
-    protected String typeId; // 类型
     private boolean isVisible;  // 是否可见状态
     private boolean isPrepared; // 标志位，View已经初始化完成
     private boolean isFirstLoad = true; // 是否第一次加载
@@ -88,14 +87,6 @@ public abstract class LazyFragment extends Fragment {
      * 初始化事件
      */
     protected void initEvent() {
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setSubId(String subId) {
-        this.typeId = subId;
     }
 
     /**
@@ -178,5 +169,18 @@ public abstract class LazyFragment extends Fragment {
         if (mWaitPorgressDialog != null) {
             mWaitPorgressDialog.dismiss();
         }
+    }
+
+    /**
+     * 隐藏软键盘
+     *
+     * @return true:隐藏成功 false:隐藏失败
+     */
+    protected boolean hiddenKeyboard() {
+        // 点击空白位置 隐藏软键盘
+        InputMethodManager mInputMethodManager = (InputMethodManager) mContext.getSystemService
+                (Context.INPUT_METHOD_SERVICE);
+        return mInputMethodManager.hideSoftInputFromWindow(getActivity()
+                .getCurrentFocus().getWindowToken(), 0);
     }
 }

@@ -124,6 +124,23 @@ public class Article {
 
         private int originId; // 这个参数是查询我的收藏列表返回的
 
+        /**
+         * fresh : false
+         * prefix :
+         * superChapterId : 408
+         * superChapterName : 公众号
+         * tags : [{"name":"公众号","url":"/wxarticle/list/408/1"}]
+         * type : 0
+         * userId : -1
+         */
+        private boolean fresh;
+        private String prefix;
+        private int superChapterId;
+        private String superChapterName;
+        private int type;
+        private int userId;
+        private List<TagsBean> tags;
+
         public String getApkLink() {
             return apkLink;
         }
@@ -266,6 +283,88 @@ public class Article {
 
         public void setOriginId(int originId) {
             this.originId = originId;
+        }
+
+        public boolean isFresh() {
+            return fresh;
+        }
+
+        public void setFresh(boolean fresh) {
+            this.fresh = fresh;
+        }
+
+        public String getPrefix() {
+            return prefix;
+        }
+
+        public void setPrefix(String prefix) {
+            this.prefix = prefix;
+        }
+
+        public int getSuperChapterId() {
+            return superChapterId;
+        }
+
+        public void setSuperChapterId(int superChapterId) {
+            this.superChapterId = superChapterId;
+        }
+
+        public String getSuperChapterName() {
+            return superChapterName;
+        }
+
+        public void setSuperChapterName(String superChapterName) {
+            this.superChapterName = superChapterName;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public List<TagsBean> getTags() {
+            return tags;
+        }
+
+        public void setTags(List<TagsBean> tags) {
+            this.tags = tags;
+        }
+
+        public static class TagsBean {
+            /**
+             * name : 公众号
+             * url : /wxarticle/list/408/1
+             */
+
+            private String name;
+            private String url;
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
         }
     }
 }

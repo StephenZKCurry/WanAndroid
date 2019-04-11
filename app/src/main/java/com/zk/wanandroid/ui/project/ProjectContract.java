@@ -37,8 +37,8 @@ public interface ProjectContract {
         /**
          * 显示项目分类
          *
-         * @param knowledgeSystems
+         * @param projectTypes
          */
-        void setProjectType(List<KnowledgeSystem> knowledgeSystems);
+        void setProjectType(List<KnowledgeSystem> projectTypes);
     }
 }

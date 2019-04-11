@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatDelegate;
@@ -37,6 +38,7 @@ import com.zk.wanandroid.ui.mine.MyBookmarkActivity;
 import com.zk.wanandroid.ui.mine.MyCollectionActivity;
 import com.zk.wanandroid.ui.navigation.NavigationFragment;
 import com.zk.wanandroid.ui.project.ProjectFragment;
+import com.zk.wanandroid.ui.wechat.WechatFragment;
 import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.Constant;
 import com.zk.wanandroid.utils.NavigationUtils;
@@ -69,6 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private HomeFragment homefragment;
     private KnowledgesystemFragment knowledgesystemFragment;
+    private WechatFragment wechatFragment;
     private NavigationFragment navigationFragment;
     private ProjectFragment projectFragment;
     private int position; // 当前选中位置
@@ -76,8 +79,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String SELECT_ITEM = "bottomNavigationSelectItem";
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_KNOWLEDGESYSTEM = 1;
-    private static final int FRAGMENT_NAVIGATION = 2;
-    private static final int FRAGMENT_PROJECT = 3;
+    private static final int FRAGMENT_WECHAT = 2;
+    private static final int FRAGMENT_NAVIGATION = 3;
+    private static final int FRAGMENT_PROJECT = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +89,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (savedInstanceState != null) {
             homefragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HomeFragment.class.getName());
             knowledgesystemFragment = (KnowledgesystemFragment) getSupportFragmentManager().findFragmentByTag(KnowledgesystemFragment.class.getName());
+            wechatFragment = (WechatFragment) getSupportFragmentManager().findFragmentByTag(WechatFragment.class.getName());
             navigationFragment = (NavigationFragment) getSupportFragmentManager().findFragmentByTag(NavigationFragment.class.getName());
             projectFragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(ProjectFragment.class.getName());
             // 恢复recreate前的位置
-            showFragment(savedInstanceState.getInt(POSITION));
+//            showFragment(savedInstanceState.getInt(POSITION));
             mBottomNavigationView.setSelectedItemId(savedInstanceState.getInt(SELECT_ITEM));
         } else {
             // 默认显示首页
@@ -147,19 +152,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_item_home:
-                        mToolbar.setTitle(getString(R.string.app_name));
+//                        mToolbar.setTitle(getString(R.string.app_name));
+                        getSupportActionBar().setTitle(getString(R.string.app_name));
                         showFragment(FRAGMENT_HOME);
                         break;
                     case R.id.menu_item_knowledgesystem:
-                        mToolbar.setTitle(getString(R.string.title_knowledgesystem));
+//                        mToolbar.setTitle(getString(R.string.title_knowledgesystem));
+                        getSupportActionBar().setTitle(getString(R.string.title_knowledgesystem));
                         showFragment(FRAGMENT_KNOWLEDGESYSTEM);
                         break;
+                    case R.id.menu_item_wechat:
+//                        mToolbar.setTitle(getString(R.string.title_wechat));
+                        getSupportActionBar().setTitle(getString(R.string.title_wechat));
+                        showFragment(FRAGMENT_WECHAT);
+                        break;
                     case R.id.menu_item_navigation:
-                        mToolbar.setTitle(getString(R.string.title_navigation));
+//                        mToolbar.setTitle(getString(R.string.title_navigation));
+                        getSupportActionBar().setTitle(getString(R.string.title_navigation));
                         showFragment(FRAGMENT_NAVIGATION);
                         break;
                     case R.id.menu_item_project:
-                        mToolbar.setTitle(getString(R.string.title_project));
+//                        mToolbar.setTitle(getString(R.string.title_project));
+                        getSupportActionBar().setTitle(getString(R.string.title_project));
                         showFragment(FRAGMENT_PROJECT);
                         break;
                     default:
@@ -237,9 +251,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         new MaterialDialog.Builder(mContext)
                                 .content(R.string.confirm_logout)
                                 .positiveText(R.string.dialog_confirm)
-                                .positiveColor(mContext.getResources().getColor(R.color.color_main))
+//                                .positiveColor(ContextCompat.getColor(mContext, R.color.color_main))
                                 .negativeText(R.string.dialog_cancel)
-                                .negativeColor(mContext.getResources().getColor(R.color.font_default))
+//                                .negativeColor(ContextCompat.getColor(mContext, R.color.font_default))
                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -267,14 +281,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (position == FRAGMENT_HOME) {
-                    mFloatingActionButton.setVisibility(View.VISIBLE);
+                    mFloatingActionButton.show();
                     if (verticalOffset == 0) {
                         mFloatingActionButton.show();
                     } else {
                         mFloatingActionButton.hide();
                     }
                 } else {
-                    mFloatingActionButton.setVisibility(View.GONE);
+                    mFloatingActionButton.hide();
                 }
             }
         });
@@ -313,6 +327,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     ft.show(knowledgesystemFragment);
                 }
                 break;
+            case FRAGMENT_WECHAT:
+                if (wechatFragment == null) {
+                    wechatFragment = WechatFragment.newInstance();
+                    ft.add(R.id.fl_container, wechatFragment, WechatFragment.class.getName());
+                    ft.hide(wechatFragment);
+                    ft.show(wechatFragment);
+                } else {
+                    ft.show(wechatFragment);
+                }
+                break;
             case FRAGMENT_NAVIGATION:
                 if (navigationFragment == null) {
                     navigationFragment = NavigationFragment.newInstance();
@@ -346,6 +370,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         if (knowledgesystemFragment != null) {
             ft.hide(knowledgesystemFragment);
+        }
+        if (wechatFragment != null) {
+            ft.hide(wechatFragment);
         }
         if (navigationFragment != null) {
             ft.hide(navigationFragment);

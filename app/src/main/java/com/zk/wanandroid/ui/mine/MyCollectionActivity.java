@@ -1,6 +1,7 @@
 package com.zk.wanandroid.ui.mine;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,7 +69,7 @@ public class MyCollectionActivity extends BaseMVPActivity<MyCollectionContract.M
     protected void initView() {
         super.initView();
         getSupportActionBar().setTitle(getString(R.string.item_collection));
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.color_main));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new ArticleAdapter(null);
         // 设置空数据显示

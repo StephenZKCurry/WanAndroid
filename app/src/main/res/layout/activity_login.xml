@@ -6,14 +6,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/layout_toolbar"
-        android:visibility="gone" />
+    <include layout="@layout/layout_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="120dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -99,7 +97,7 @@
             android:textColor="@color/color_white"
             android:textSize="@dimen/sp_16"
             rv:rv_backgroundColor="@color/color_main"
-            rv:rv_cornerRadius="@dimen/dp_10"
+            rv:rv_cornerRadius="@dimen/dp_20"
             rv:rv_isRippleEnable="true" />
 
         <RelativeLayout

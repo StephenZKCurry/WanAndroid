@@ -248,4 +248,36 @@ public interface ApiService {
     @POST("lg/collect/deletetool/json")
     @FormUrlEncoded
     Observable<DataResponse> deleteBookmark(@Field("id") int id);
+
+    /**
+     * 获取公众号列表
+     * https://wanandroid.com/wxarticle/chapters/json
+     *
+     * @return
+     */
+    @GET("/wxarticle/chapters/json")
+    Observable<DataResponse<List<KnowledgeSystem>>> getWechat();
+
+    /**
+     * 查看某个公众号历史数据
+     * https://wanandroid.com/wxarticle/list/408/1/json
+     *
+     * @param id   公众号id
+     * @param page 公众号页码，从1开始
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Observable<DataResponse<Article>> getWechatArticle(@Path("id") int id, @Path("page") int page);
+
+    /**
+     * 在某个公众号中搜索历史文章
+     * https://wanandroid.com/wxarticle/list/405/1/json?k=Java
+     *
+     * @param id   公众号id
+     * @param page 公众号页码，从1开始
+     * @param key  搜索条件
+     * @return
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Observable<DataResponse<Article>> searchWechatArticle(@Path("id") int id, @Path("page") int page, @Query("k") String key);
 }

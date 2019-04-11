@@ -14,4 +14,8 @@
     <color name="font_hint">#848484</color>
     <!-- 透明 -->
     <color name="transparent">#00000000</color>
+    <!-- 竖直TabLayout -->
+    <color name="color_tab_backgroung">#E7E7E7</color>
+    <color name="color_tab_active">#239ffe</color>
+    <color name="color_tab_unactive">#4E4E4E</color>
 </resources>

@@ -49,8 +49,7 @@ public class ArticleTypeActivity extends BaseActivity {
         mTabs = (List<KnowledgeSystem.ChildrenBean>) getIntent().getSerializableExtra(ARTICLE_TYPE_SECOND);
         for (int i = 0; i < mTabs.size(); i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(mTabs.get(i).getName()));
-            ArticleTypeFragment articleTypeFragment = ArticleTypeFragment.newInstance();
-            articleTypeFragment.setSubId(mTabs.get(i).getId() + "");
+            ArticleTypeFragment articleTypeFragment = ArticleTypeFragment.newInstance(mTabs.get(i).getId());
             mFragments.add(articleTypeFragment);
         }
         mViewPager.setAdapter(new ArticleTypeFragmentAdapter(getSupportFragmentManager(), mFragments));

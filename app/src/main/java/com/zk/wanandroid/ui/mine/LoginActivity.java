@@ -1,11 +1,9 @@
 package com.zk.wanandroid.ui.mine;
 
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.flyco.roundview.RoundTextView;
@@ -47,14 +45,7 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.LoginPresenter,
     @Override
     protected void initView() {
         super.initView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            // 透明状态栏
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            // 透明导航栏
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+        getSupportActionBar().setTitle(getString(R.string.login));
     }
 
     @Override
@@ -65,6 +56,11 @@ public class LoginActivity extends BaseMVPActivity<LoginContract.LoginPresenter,
     @Override
     protected void initEvent() {
         super.initEvent();
+    }
+
+    @Override
+    protected boolean showHomeAsUp() {
+        return true;
     }
 
     @NonNull

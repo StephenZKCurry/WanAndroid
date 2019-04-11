@@ -1,6 +1,7 @@
 package com.zk.wanandroid.ui.mine;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -92,7 +93,7 @@ public class MyBookmarkActivity extends BaseMVPActivity<MyBookmarkContract.MyBoo
     protected void initView() {
         super.initView();
         getSupportActionBar().setTitle(getString(R.string.item_bookmark));
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.color_main));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new MyBookmarkAdapter(null);
         // 设置空数据显示
@@ -199,9 +200,9 @@ public class MyBookmarkActivity extends BaseMVPActivity<MyBookmarkContract.MyBoo
                 new MaterialDialog.Builder(mContext)
                         .content(R.string.confirm_bookmark_delete)
                         .positiveText(R.string.dialog_confirm)
-                        .positiveColor(mContext.getResources().getColor(R.color.color_main))
+//                        .positiveColor(ContextCompat.getColor(mContext, R.color.color_main))
                         .negativeText(R.string.dialog_cancel)
-                        .negativeColor(mContext.getResources().getColor(R.color.font_default))
+//                        .negativeColor(ContextCompat.getColor(mContext, R.color.font_default))
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {

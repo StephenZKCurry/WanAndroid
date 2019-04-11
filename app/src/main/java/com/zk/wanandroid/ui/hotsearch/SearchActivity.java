@@ -6,12 +6,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,13 +85,13 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
     @Override
     protected void initView() {
         super.initView();
-        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_main));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.color_main));
         rvHistory.setLayoutManager(new LinearLayoutManager(mContext));
         rvArticle.setLayoutManager(new LinearLayoutManager(mContext));
         articleAdapter = new ArticleAdapter(null);
         // 设置空数据显示
-//        View emptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_empty_view, null, false);
-//        articleAdapter.setEmptyView(emptyView);
+        View emptyView = LayoutInflater.from(mContext).inflate(R.layout.layout_empty_view, null, false);
+        articleAdapter.setEmptyView(emptyView);
         rvArticle.setAdapter(articleAdapter);
         histroyAdapter = new SearchHistroyAdapter(null);
         rvHistory.setAdapter(histroyAdapter);
@@ -340,9 +342,9 @@ public class SearchActivity extends BaseMVPActivity<SearchContract.SearchPresent
         new MaterialDialog.Builder(mContext)
                 .content(R.string.delete_all_search_history)
                 .positiveText(R.string.dialog_confirm)
-                .positiveColor(mContext.getResources().getColor(R.color.color_main))
+//                .positiveColor(ContextCompat.getColor(mContext, R.color.color_main))
                 .negativeText(R.string.dialog_cancel)
-                .negativeColor(mContext.getResources().getColor(R.color.font_default))
+//                .negativeColor(ContextCompat.getColor(mContext, R.color.font_default))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {

@@ -1,4 +1,4 @@
-package com.zk.wanandroid.ui.project;
+package com.zk.wanandroid.ui.wechat;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,12 +19,12 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * @description: 项目Fragment
+ * @description: 公众号Fragment
  * @author: zhukai
- * @date: 2018/3/5 10:51
+ * @date: 2019/4/9 17:13
  */
-public class ProjectFragment extends BaseMVPFragment<ProjectContract.ProjectPresenter, ProjectContract.IProjectModel>
-        implements ProjectContract.IProjectView {
+public class WechatFragment extends BaseMVPFragment<WechatContract.WechatPresenter, WechatContract.IWechatModel> implements
+        WechatContract.IWechatView {
 
     @BindView(R.id.tl_tabs)
     TabLayout mTabLayout;
@@ -33,16 +33,16 @@ public class ProjectFragment extends BaseMVPFragment<ProjectContract.ProjectPres
 
     private List<Fragment> mFragments;
 
-    public static ProjectFragment newInstance() {
+    public static WechatFragment newInstance() {
         Bundle args = new Bundle();
-        ProjectFragment fragment = new ProjectFragment();
+        WechatFragment fragment = new WechatFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_project;
+        return R.layout.fragment_wechat;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ProjectFragment extends BaseMVPFragment<ProjectContract.ProjectPres
     protected void initData() {
         super.initData();
         mFragments = new ArrayList<>();
-        mPresenter.getProjectType();
+        mPresenter.getWechat();
     }
 
     @Override
@@ -65,27 +65,27 @@ public class ProjectFragment extends BaseMVPFragment<ProjectContract.ProjectPres
     @NonNull
     @Override
     public BasePresenter initPresenter() {
-        return ProjectPresenter.newInstance();
+        return WechatPresenter.newInstance();
     }
 
     /**
-     * 显示项目分类
+     * 显示公众号列表
      *
-     * @param projectTypes
+     * @param wechats
      */
     @Override
-    public void setProjectType(List<KnowledgeSystem> projectTypes) {
-        for (int i = 0; i < projectTypes.size(); i++) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(projectTypes.get(i).getName()));
-            ProjectListFragment projectListFragment = ProjectListFragment.newInstance(projectTypes.get(i).getId());
-            mFragments.add(projectListFragment);
+    public void setWechatTab(List<KnowledgeSystem> wechats) {
+        for (int i = 0; i < wechats.size(); i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(wechats.get(i).getName()));
+            WechatListFragment wechatListFragment = WechatListFragment.newInstance(wechats.get(i).getId());
+            mFragments.add(wechatListFragment);
         }
         mViewPager.setAdapter(new ArticleTypeFragmentAdapter(getChildFragmentManager(), mFragments));
         mViewPager.setOffscreenPageLimit(mFragments.size());
         mTabLayout.setupWithViewPager(mViewPager);
         // mTabLayout.setupWithViewPager方法内部会remove所有的tabs，这里重新设置一遍tabs的text，否则tabs的text不显示
-        for (int i = 0; i < projectTypes.size(); i++) {
-            mTabLayout.getTabAt(i).setText(projectTypes.get(i).getName());
+        for (int i = 0; i < wechats.size(); i++) {
+            mTabLayout.getTabAt(i).setText(wechats.get(i).getName());
         }
     }
 }

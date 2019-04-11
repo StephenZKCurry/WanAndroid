@@ -85,7 +85,7 @@ public abstract class BaseMVPFragment<P extends BasePresenter, M extends IBaseMo
      */
     @Override
     public void showFaild(String message) {
-        showToast(getString(R.string.request_error));
+        showToast(message);
     }
 
     /**

@@ -6,10 +6,8 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.Project;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 项目列表Presenter
@@ -62,9 +60,9 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
             return;
         }
         mRxManager.register(mIModel.collectProject(project.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 收藏成功
                             project.setCollect(true);
@@ -73,16 +71,6 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
                         } else {
                             // 收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -100,9 +88,9 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
             return;
         }
         mRxManager.register(mIModel.cancelCollectProject(project.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 取消收藏成功
                             project.setCollect(false);
@@ -113,21 +101,11 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
                             mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
                         }
                     }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
-                    }
                 }));
     }
 
     /**
-     * 获取知识体系文章列表
+     * 获取项目列表
      *
      * @param cid  分类的id，即知识体系二级目录的id
      * @param page 页码，从0开始
@@ -139,9 +117,9 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
             return;
         }
         mRxManager.register(mIModel.loadProjectList(cid, page)
-                .subscribe(new Consumer<DataResponse<Project>>() {
+                .subscribeWith(new BaseObserver<DataResponse<Project>>(mIView) {
                     @Override
-                    public void accept(DataResponse<Project> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<Project> dataResponse) {
                         if (page == 1) {
                             // 刷新
                             mIView.setProjectList(dataResponse.getData(), Constant.TYPE_REFRESH_SUCCESS);
@@ -151,15 +129,10 @@ public class ProjectListPresenter extends ProjectListContract.ProjectListPresent
                         }
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));

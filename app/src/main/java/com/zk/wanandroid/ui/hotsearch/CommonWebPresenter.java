@@ -2,14 +2,11 @@ package com.zk.wanandroid.ui.hotsearch;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.bean.DataResponse;
-import com.zk.wanandroid.utils.NetworkUtils;
+import com.zk.wanandroid.net.rx.BaseObserver;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 常用网站Presenter
@@ -38,21 +35,16 @@ public class CommonWebPresenter extends CommonWebContract.CommonWebPresenter {
         }
         mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.loadCommonWeb()
-                .subscribe(new Consumer<DataResponse<List<CommonWeb>>>() {
+                .subscribeWith(new BaseObserver<DataResponse<List<CommonWeb>>>(mIView) {
                     @Override
-                    public void accept(DataResponse<List<CommonWeb>> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<List<CommonWeb>> dataResponse) {
                         mIView.setCommonWeb(dataResponse.getData());
                         mIView.hideProgressDialog();
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.hideProgressDialog();
                     }
                 }));

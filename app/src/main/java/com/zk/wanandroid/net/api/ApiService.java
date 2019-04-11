@@ -1,4 +1,4 @@
-package com.zk.wanandroid.api;
+package com.zk.wanandroid.net.api;
 
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.Bookmark;

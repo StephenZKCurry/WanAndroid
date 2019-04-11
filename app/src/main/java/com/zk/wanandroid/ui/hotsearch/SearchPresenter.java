@@ -8,8 +8,8 @@ import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.CommonWeb;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.db.SearchHistory;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
 
 import java.util.List;
 
@@ -60,9 +60,9 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
             return;
         }
         mRxManager.register(mIModel.collectArticle(article.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 收藏成功
                             article.setCollect(true);
@@ -71,16 +71,6 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
                         } else {
                             // 收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -98,9 +88,9 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
             return;
         }
         mRxManager.register(mIModel.cancelCollectArticle(article.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 取消收藏成功
                             article.setCollect(false);
@@ -109,16 +99,6 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
                         } else {
                             // 取消收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -182,20 +162,10 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
             return;
         }
         mRxManager.register(mIModel.loadHotSearch()
-                .subscribe(new Consumer<DataResponse<List<CommonWeb>>>() {
+                .subscribeWith(new BaseObserver<DataResponse<List<CommonWeb>>>(mIView) {
                     @Override
-                    public void accept(DataResponse<List<CommonWeb>> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<List<CommonWeb>> dataResponse) {
                         mIView.setHotSearch(dataResponse.getData());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
                     }
                 }));
     }
@@ -213,9 +183,9 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
         }
         this.mKey = key;
         mRxManager.register(mIModel.loadSearchArticles(key, page)
-                .subscribe(new Consumer<DataResponse<Article>>() {
+                .subscribeWith(new BaseObserver<DataResponse<Article>>(mIView) {
                     @Override
-                    public void accept(DataResponse<Article> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<Article> dataResponse) {
                         if (page == 0) {
                             // 刷新
                             mIView.showSearchArticle(dataResponse.getData(), Constant.TYPE_REFRESH_SUCCESS);
@@ -225,15 +195,10 @@ public class SearchPresenter extends SearchContract.SearchPresenter {
                         }
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));

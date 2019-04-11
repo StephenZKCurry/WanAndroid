@@ -6,10 +6,8 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.DataResponse;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 我的收藏Presenter
@@ -60,9 +58,9 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
             return;
         }
         mRxManager.register(mIModel.loadMyCollection(page)
-                .subscribe(new Consumer<DataResponse<Article>>() {
+                .subscribeWith(new BaseObserver<DataResponse<Article>>(mIView) {
                     @Override
-                    public void accept(DataResponse<Article> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<Article> dataResponse) {
                         if (page == 0) {
                             // 刷新
                             mIView.setMyCollection(dataResponse.getData(), Constant.TYPE_REFRESH_SUCCESS);
@@ -72,15 +70,10 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
                         }
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));
@@ -98,9 +91,9 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
             return;
         }
         mRxManager.register(mIModel.cancelCollectArticle(article)
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 取消收藏成功
                             mIView.cancelCollectArticleSuccess(position);
@@ -108,16 +101,6 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
                         } else {
                             // 取消收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -136,9 +119,9 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
             return;
         }
         mRxManager.register(mIModel.addOutsideCollectArticle(title, author, link)
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 收藏成功
                             mIView.showToast(App.getContext().getString(R.string.collection_success));
@@ -146,16 +129,6 @@ public class MyCollectionPresenter extends MyCollectionContract.MyCollectionPres
                         } else {
                             // 收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));

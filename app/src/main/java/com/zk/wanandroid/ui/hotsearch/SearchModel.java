@@ -2,7 +2,7 @@ package com.zk.wanandroid.ui.hotsearch;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.api.ApiService;
+import com.zk.wanandroid.net.api.ApiService;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.CommonWeb;
@@ -11,7 +11,7 @@ import com.zk.wanandroid.db.SearchHistory;
 import com.zk.wanandroid.db.SearchHistoryDao;
 import com.zk.wanandroid.manager.RetrofitManager;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.RxSchedulers;
+import com.zk.wanandroid.net.rx.RxSchedulers;
 
 import java.util.Date;
 import java.util.List;

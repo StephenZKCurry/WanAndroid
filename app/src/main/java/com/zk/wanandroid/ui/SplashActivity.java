@@ -2,12 +2,15 @@ package com.zk.wanandroid.ui;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zk.wanandroid.utils.ActivityUtils;
+import com.zk.wanandroid.utils.NotchUtils;
+import com.zk.wanandroid.utils.RomUtils;
 import com.zk.wanandroid.utils.ToastUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -27,6 +30,21 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 申请运行时权限
         requestPermissions();
+        // 适配刘海屏
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // Android P利用官方提供的API适配
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            // 始终允许窗口延伸到屏幕短边上的缺口区域
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            getWindow().setAttributes(lp);
+        } else {
+            // Android P以下根据手机厂商的适配方案进行适配
+            if (RomUtils.isHuawei() && NotchUtils.hasNotchAtHuawei(this)) {
+                NotchUtils.setFullScreenAtHuawei(getWindow());
+            } else if (RomUtils.isXiaomi() && NotchUtils.hasNotchAtXiaomi(this)) {
+                NotchUtils.setFullScreenAtXiaomi(getWindow());
+            }
+        }
     }
 
     private void requestPermissions() {
@@ -60,6 +78,5 @@ public class SplashActivity extends AppCompatActivity {
         ActivityUtils.startActivity(this, new Intent(this, MainActivity.class));
         finish();
     }
-
 }
 

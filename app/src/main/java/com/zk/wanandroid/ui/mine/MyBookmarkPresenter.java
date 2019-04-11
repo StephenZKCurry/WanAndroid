@@ -6,12 +6,10 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.Bookmark;
 import com.zk.wanandroid.bean.DataResponse;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 我的书签Presenter
@@ -44,21 +42,16 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
             return;
         }
         mRxManager.register(mIModel.loadMyBookmark()
-                .subscribe(new Consumer<DataResponse<List<Bookmark>>>() {
+                .subscribeWith(new BaseObserver<DataResponse<List<Bookmark>>>(mIView) {
                     @Override
-                    public void accept(DataResponse<List<Bookmark>> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<List<Bookmark>> dataResponse) {
                         mIView.setMyBookmark(dataResponse.getData());
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));
@@ -76,9 +69,9 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
             return;
         }
         mRxManager.register(mIModel.addBookmark(name, link)
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 添加书签成功
                             mIView.showToast(App.getContext().getString(R.string.add_bookmark_success));
@@ -86,16 +79,6 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
                         } else {
                             // 添加书签失败
                             mIView.showToast(App.getContext().getString(R.string.add_bookmark_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -113,9 +96,9 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
             return;
         }
         mRxManager.register(mIModel.editBookmark(bookmark.getId(), bookmark.getName(), bookmark.getLink())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 编辑书签成功
                             mIView.showToast(App.getContext().getString(R.string.edit_bookmark_success));
@@ -123,16 +106,6 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
                         } else {
                             // 编辑书签失败
                             mIView.showToast(App.getContext().getString(R.string.edit_bookmark_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -150,9 +123,9 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
             return;
         }
         mRxManager.register(mIModel.deleteBookmark(id)
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 删除书签成功
                             mIView.showToast(App.getContext().getString(R.string.bookmark_delete_success));
@@ -160,16 +133,6 @@ public class MyBookmarkPresenter extends MyBookmarkContract.MyBookmarkPresenter 
                         } else {
                             // 删除书签失败
                             mIView.showToast(App.getContext().getString(R.string.bookmark_delete_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));

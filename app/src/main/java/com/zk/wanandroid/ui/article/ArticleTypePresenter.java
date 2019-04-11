@@ -6,10 +6,8 @@ import com.zk.wanandroid.R;
 import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.Article;
 import com.zk.wanandroid.bean.DataResponse;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 知识体系详情Persenter
@@ -62,9 +60,9 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
             return;
         }
         mRxManager.register(mIModel.collectArticle(article.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 收藏成功
                             article.setCollect(true);
@@ -73,16 +71,6 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
                         } else {
                             // 收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -100,9 +88,9 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
             return;
         }
         mRxManager.register(mIModel.cancelCollectArticle(article.getId())
-                .subscribe(new Consumer<DataResponse>() {
+                .subscribeWith(new BaseObserver<DataResponse>(mIView) {
                     @Override
-                    public void accept(DataResponse dataResponse) throws Exception {
+                    public void onSuccess(DataResponse dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 取消收藏成功
                             article.setCollect(false);
@@ -111,16 +99,6 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
                         } else {
                             // 取消收藏失败
                             mIView.showToast(App.getContext().getString(R.string.collection_cancel_failed));
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
                         }
                     }
                 }));
@@ -139,9 +117,9 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
             return;
         }
         mRxManager.register(mIModel.loadKnowledgesystemArticles(cid, page)
-                .subscribe(new Consumer<DataResponse<Article>>() {
+                .subscribeWith(new BaseObserver<DataResponse<Article>>(mIView) {
                     @Override
-                    public void accept(DataResponse<Article> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<Article> dataResponse) {
                         if (page == 0) {
                             // 刷新
                             mIView.setKnowledgesystemArticles(dataResponse.getData(), Constant.TYPE_REFRESH_SUCCESS);
@@ -151,15 +129,10 @@ public class ArticleTypePresenter extends ArticleTypeContract.ArticleTypePresent
                         }
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));

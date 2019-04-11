@@ -2,14 +2,11 @@ package com.zk.wanandroid.ui.knowledgesystem;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.KnowledgeSystem;
-import com.zk.wanandroid.utils.NetworkUtils;
+import com.zk.wanandroid.net.rx.BaseObserver;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 知识体系Presenter
@@ -37,21 +34,16 @@ public class KnowledgesystemPresenter extends KnowledgesystemContract.Knowledges
             return;
         }
         mRxManager.register(mIModel.loadKnowledgesystem()
-                .subscribe(new Consumer<DataResponse<List<KnowledgeSystem>>>() {
+                .subscribeWith(new BaseObserver<DataResponse<List<KnowledgeSystem>>>(mIView) {
                     @Override
-                    public void accept(DataResponse<List<KnowledgeSystem>> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<List<KnowledgeSystem>> dataResponse) {
                         mIView.setKnowledgesystem(dataResponse.getData());
                         mIView.showRefreshView(false);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.showRefreshView(false);
                     }
                 }));

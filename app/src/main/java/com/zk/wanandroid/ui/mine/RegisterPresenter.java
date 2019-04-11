@@ -2,13 +2,10 @@ package com.zk.wanandroid.ui.mine;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.User;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 注册Presenter
@@ -41,9 +38,9 @@ public class RegisterPresenter extends RegisterContract.RegisterPresenter {
         }
         mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.doRegister(username, password, repassword)
-                .subscribe(new Consumer<DataResponse<User>>() {
+                .subscribeWith(new BaseObserver<DataResponse<User>>(mIView) {
                     @Override
-                    public void accept(DataResponse<User> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<User> dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 注册成功
                             mIView.showRegisterSuccess(dataResponse.getData());
@@ -53,15 +50,10 @@ public class RegisterPresenter extends RegisterContract.RegisterPresenter {
                         }
                         mIView.hideProgressDialog();
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.hideProgressDialog();
                     }
                 }));

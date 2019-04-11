@@ -2,13 +2,10 @@ package com.zk.wanandroid.ui.mine;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.User;
+import com.zk.wanandroid.net.rx.BaseObserver;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.NetworkUtils;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 登录Presenter
@@ -40,9 +37,9 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
         }
         mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.doLogin(username, password)
-                .subscribe(new Consumer<DataResponse<User>>() {
+                .subscribeWith(new BaseObserver<DataResponse<User>>(mIView) {
                     @Override
-                    public void accept(DataResponse<User> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<User> dataResponse) {
                         if (dataResponse.getErrorCode() == Constant.REQUEST_SUCCESS) {
                             // 登录成功
                             mIView.showLoginSuccess(dataResponse.getData());
@@ -52,15 +49,10 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
                         }
                         mIView.hideProgressDialog();
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.hideProgressDialog();
                     }
                 }));

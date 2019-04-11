@@ -3,12 +3,12 @@ package com.zk.wanandroid.ui.mine;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.zk.wanandroid.api.ApiService;
+import com.zk.wanandroid.net.api.ApiService;
 import com.zk.wanandroid.bean.Bookmark;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.manager.RetrofitManager;
 import com.zk.wanandroid.utils.Constant;
-import com.zk.wanandroid.utils.RxSchedulers;
+import com.zk.wanandroid.net.rx.RxSchedulers;
 
 import java.util.List;
 

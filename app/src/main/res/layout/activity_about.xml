@@ -123,7 +123,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:text="https://github.com/StephenZKCurry" />
+                            android:autoLink="all"
+                            android:text="github:https://github.com/StephenZKCurry" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:autoLink="all"
+                            android:text="简书:https://www.jianshu.com/u/e7a856a0e929" />
 
                         <TextView
                             android:layout_width="wrap_content"

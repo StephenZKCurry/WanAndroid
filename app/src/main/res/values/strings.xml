@@ -76,6 +76,11 @@
     <!-- 公众号 -->
     <string name="hint_search">请输入搜索内容</string>
 
+    <!-- 网络请求错误 -->
     <string name="no_network_connection">网络连接不可用,请检查网络设置</string>
-    <string name="request_error">"网络连接超时,请稍后再试"</string>
+    <string name="request_error">网络连接超时,请稍后再试</string>
+    <string name="network_error">网络连接异常</string>
+    <string name="json_parse_error">数据解析异常</string>
+    <string name="param_error">参数错误</string>
+    <string name="unknown_error">未知错误</string>
 </resources>

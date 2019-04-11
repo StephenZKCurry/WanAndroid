@@ -2,14 +2,11 @@ package com.zk.wanandroid.ui.navigation;
 
 import android.support.annotation.NonNull;
 
-import com.zk.wanandroid.base.App;
 import com.zk.wanandroid.bean.DataResponse;
 import com.zk.wanandroid.bean.Navigation;
-import com.zk.wanandroid.utils.NetworkUtils;
+import com.zk.wanandroid.net.rx.BaseObserver;
 
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * @description: 导航Presenter
@@ -38,21 +35,16 @@ public class NavigationPresenter extends NavigationContract.NavigationPresenter 
         }
         mIView.showProgressDialog("请稍后");
         mRxManager.register(mIModel.getNavigation()
-                .subscribe(new Consumer<DataResponse<List<Navigation>>>() {
+                .subscribeWith(new BaseObserver<DataResponse<List<Navigation>>>(mIView) {
                     @Override
-                    public void accept(DataResponse<List<Navigation>> dataResponse) throws Exception {
+                    public void onSuccess(DataResponse<List<Navigation>> dataResponse) {
                         mIView.setNavigation(dataResponse.getData());
                         mIView.hideProgressDialog();
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        boolean available = NetworkUtils.isAvailable(App.getContext());
-                        if (!available) {
-                            mIView.showNoNet();
-                        } else {
-                            mIView.showFaild(throwable.getMessage());
-                        }
+                    public void onFailure(String message) {
+                        super.onFailure(message);
                         mIView.hideProgressDialog();
                     }
                 }));

@@ -51,21 +51,21 @@ public abstract class BaseMVPFragment<P extends BasePresenter, M extends IBaseMo
     }
 
     /**
-     * 显示提示框
+     * 显示加载框
      *
-     * @param msg 等待消息字符串
+     * @param msg 加载提示字符串
      */
     @Override
-    public void showProgressDialog(String msg) {
-        super.showProgressDialog(msg);
+    public void showLoading(String msg) {
+        super.showLoading(msg);
     }
 
     /**
-     * 隐藏提示框
+     * 隐藏加载框
      */
     @Override
-    public void hideProgressDialog() {
-        super.hideProgressDialog();
+    public void hideLoading() {
+        super.hideLoading();
     }
 
     /**

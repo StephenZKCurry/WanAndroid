@@ -35,7 +35,7 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后");
+        mIView.showLoading("请稍后");
         mRxManager.register(mIModel.doLogin(username, password)
                 .subscribeWith(new BaseObserver<DataResponse<User>>(mIView) {
                     @Override
@@ -47,13 +47,13 @@ public class LoginPresenter extends LoginContract.LoginPresenter {
                             // 登录失败
                             mIView.showLoginFaild(dataResponse.getErrorMsg());
                         }
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
 
                     @Override
                     public void onFailure(String message) {
                         super.onFailure(message);
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
                 }));
     }

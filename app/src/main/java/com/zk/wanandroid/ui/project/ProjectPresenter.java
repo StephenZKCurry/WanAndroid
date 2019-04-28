@@ -33,19 +33,19 @@ public class ProjectPresenter extends ProjectContract.ProjectPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后");
+        mIView.showLoading("请稍后");
         mRxManager.register(mIModel.getProjectType()
                 .subscribeWith(new BaseObserver<DataResponse<List<KnowledgeSystem>>>(mIView) {
                     @Override
                     public void onSuccess(DataResponse<List<KnowledgeSystem>> dataResponse) {
                         mIView.setProjectType(dataResponse.getData());
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
 
                     @Override
                     public void onFailure(String message) {
                         super.onFailure(message);
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
                 }));
     }

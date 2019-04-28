@@ -20,7 +20,8 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/bg_splash</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <!-- 默认TextView样式 -->

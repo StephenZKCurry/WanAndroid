@@ -104,7 +104,7 @@ public class WechatListFragment extends BaseMVPFragment<WechatListContract.Wecha
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 隐藏软键盘
-                    hiddenKeyboard();
+                    hideKeyboard();
                     // 搜索文章
                     searchKey = etSearch.getText().toString().trim();
                     showRefreshView(true);

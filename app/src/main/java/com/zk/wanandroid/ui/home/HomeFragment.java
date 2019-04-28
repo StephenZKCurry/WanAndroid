@@ -77,10 +77,6 @@ public class HomeFragment extends BaseMVPFragment<HomeContract.HomePresenter, Ho
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new ArticleAdapter(null);
         mRecyclerView.setAdapter(mAdapter);
-        // 设置banner头部
-        mHomeBannerHeadView = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_banner, null);
-        mBanner = (Banner) mHomeBannerHeadView.findViewById(R.id.banner_home);
-        mAdapter.addHeaderView(mHomeBannerHeadView);
     }
 
     /**
@@ -117,6 +113,12 @@ public class HomeFragment extends BaseMVPFragment<HomeContract.HomePresenter, Ho
      */
     @Override
     public void showHomeBanner(final List<HomeBanner> banners) {
+        if (mAdapter.getHeaderLayoutCount() == 0) {
+            // 如果没有添加过Header，设置banner头部
+            mHomeBannerHeadView = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_banner, null);
+            mBanner = (Banner) mHomeBannerHeadView.findViewById(R.id.banner_home);
+            mAdapter.addHeaderView(mHomeBannerHeadView);
+        }
         List<String> images = new ArrayList();
         List<String> titles = new ArrayList();
         for (HomeBanner banner : banners) {

@@ -33,19 +33,19 @@ public class CommonWebPresenter extends CommonWebContract.CommonWebPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后");
+        mIView.showLoading("请稍后");
         mRxManager.register(mIModel.loadCommonWeb()
                 .subscribeWith(new BaseObserver<DataResponse<List<CommonWeb>>>(mIView) {
                     @Override
                     public void onSuccess(DataResponse<List<CommonWeb>> dataResponse) {
                         mIView.setCommonWeb(dataResponse.getData());
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
 
                     @Override
                     public void onFailure(String message) {
                         super.onFailure(message);
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
                 }));
     }

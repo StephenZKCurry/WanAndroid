@@ -4,17 +4,17 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/iv_empty"
+        android:id="@+id/iv_no_network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_vector_empty" />
+        android:src="@drawable/ic_vector_no_network" />
 
     <TextView
         style="@style/textview_default"
-        android:layout_below="@id/iv_empty"
+        android:layout_below="@id/iv_no_network"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/dp_8"
-        android:text="@string/state_empty" />
+        android:text="@string/state_no_network" />
 
 </RelativeLayout>

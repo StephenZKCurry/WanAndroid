@@ -25,16 +25,16 @@ public interface IBaseView {
     void showToast(String msg);
 
     /**
-     * 显示等待dialog
+     * 显示加载dialog
      *
-     * @param waitMsg 等待消息字符串
+     * @param waitMsg 加载提示字符串
      */
-    void showProgressDialog(String waitMsg);
+    void showLoading(String waitMsg);
 
     /**
-     * 隐藏等待dialog
+     * 隐藏加载dialog
      */
-    void hideProgressDialog();
+    void hideLoading();
 
     /**
      * 请求成功
@@ -54,5 +54,4 @@ public interface IBaseView {
      * 显示当前网络不可用
      */
     void showNoNet();
-
 }

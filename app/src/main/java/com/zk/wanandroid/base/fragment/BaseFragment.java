@@ -59,7 +59,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        if (unbinder != null && unbinder != Unbinder.EMPTY) {
+            unbinder.unbind();
+        }
         RxBus.get().unRegister(mContext); // 取消注册RxBus
     }
 
@@ -100,11 +102,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 显示提示框
+     * 显示加载框
      *
-     * @param msg 等待消息字符串
+     * @param msg 加载提示字符串
      */
-    protected void showProgressDialog(String msg) {
+    protected void showLoading(String msg) {
         if (mWaitPorgressDialog.isShowing()) {
             mWaitPorgressDialog.dismiss();
         }
@@ -113,9 +115,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 隐藏提示框
+     * 隐藏加载框
      */
-    protected void hideProgressDialog() {
+    protected void hideLoading() {
         if (mWaitPorgressDialog != null) {
             mWaitPorgressDialog.dismiss();
         }
@@ -126,7 +128,7 @@ public abstract class BaseFragment extends Fragment {
      *
      * @return true:隐藏成功 false:隐藏失败
      */
-    protected boolean hiddenKeyboard() {
+    protected boolean hideKeyboard() {
         // 点击空白位置 隐藏软键盘
         InputMethodManager mInputMethodManager = (InputMethodManager) mContext.getSystemService
                 (Context.INPUT_METHOD_SERVICE);

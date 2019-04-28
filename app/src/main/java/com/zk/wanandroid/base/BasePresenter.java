@@ -9,7 +9,7 @@ import com.zk.wanandroid.manager.RxManager;
  * @author: zhukai
  * @date: 2018/3/2 12:01
  */
-public abstract class BasePresenter<M, V>  {
+public abstract class BasePresenter<M, V> {
 
     public M mIModel;
     public V mIView;

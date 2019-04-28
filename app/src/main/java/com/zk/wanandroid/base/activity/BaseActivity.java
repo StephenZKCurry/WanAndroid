@@ -82,7 +82,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 这里不采用Activity管理栈是因为切换夜间主题后调用recreate()后会执行OnDestory()
 //        AppManager.getAppManager().finishActivity(this);
         RxBus.get().unRegister(mContext); // 取消注册RxBus
-        unbinder.unbind();
+        if (unbinder != null && unbinder != Unbinder.EMPTY) {
+            unbinder.unbind();
+        }
         Log.d(TAG, "onDestroy()");
     }
 
@@ -173,11 +175,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 显示提示框
+     * 显示加载框
      *
-     * @param msg 等待消息字符串
+     * @param msg 加载提示字符串
      */
-    protected void showProgressDialog(String msg) {
+    protected void showLoading(String msg) {
         if (mWaitPorgressDialog.isShowing()) {
             mWaitPorgressDialog.dismiss();
         }
@@ -186,9 +188,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 隐藏提示框
+     * 隐藏加载框
      */
-    protected void hideProgressDialog() {
+    protected void hideLoading() {
         if (mWaitPorgressDialog != null) {
             mWaitPorgressDialog.dismiss();
         }
@@ -199,7 +201,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @return true:隐藏成功 false:隐藏失败
      */
-    protected boolean hiddenKeyboard() {
+    protected boolean hideKeyboard() {
         // 点击空白位置 隐藏软键盘
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService
                 (INPUT_METHOD_SERVICE);

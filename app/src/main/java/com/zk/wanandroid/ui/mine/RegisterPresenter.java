@@ -36,7 +36,7 @@ public class RegisterPresenter extends RegisterContract.RegisterPresenter {
         if (mIView == null || mIModel == null) {
             return;
         }
-        mIView.showProgressDialog("请稍后");
+        mIView.showLoading("请稍后");
         mRxManager.register(mIModel.doRegister(username, password, repassword)
                 .subscribeWith(new BaseObserver<DataResponse<User>>(mIView) {
                     @Override
@@ -48,13 +48,13 @@ public class RegisterPresenter extends RegisterContract.RegisterPresenter {
                             // 注册失败
                             mIView.showRegisterFaild(dataResponse.getErrorMsg());
                         }
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
 
                     @Override
                     public void onFailure(String message) {
                         super.onFailure(message);
-                        mIView.hideProgressDialog();
+                        mIView.hideLoading();
                     }
                 }));
     }

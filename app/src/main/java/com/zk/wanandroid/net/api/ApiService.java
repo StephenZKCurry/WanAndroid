@@ -280,4 +280,13 @@ public interface ApiService {
      */
     @GET("wxarticle/list/{id}/{page}/json")
     Observable<DataResponse<Article>> searchWechatArticle(@Path("id") int id, @Path("page") int page, @Query("k") String key);
+
+    /**
+     * 获取个人积分
+     * https://www.wanandroid.com/lg/coin/getcount/json
+     *
+     * @return
+     */
+    @GET("lg/coin/getcount/json")
+    Observable<DataResponse> getMyPoint();
 }

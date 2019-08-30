@@ -4,10 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.motion.MotionLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zk.wanandroid.R;
 import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.NotchUtils;
 import com.zk.wanandroid.utils.RomUtils;
@@ -25,11 +27,38 @@ import io.reactivex.functions.Consumer;
  */
 public class SplashActivity extends AppCompatActivity {
 
+    private MotionLayout mMotionLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 申请运行时权限
-        requestPermissions();
+        setContentView(R.layout.activity_splash);
+
+        mMotionLayout = findViewById(R.id.motion_splash);
+        mMotionLayout.transitionToEnd();
+        mMotionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
+
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int i) {
+                // 申请运行时权限
+                requestPermissions();
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
+
+            }
+        });
+
         // 适配刘海屏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // Android P利用官方提供的API适配
@@ -60,13 +89,14 @@ public class SplashActivity extends AppCompatActivity {
                             ToastUtils.showToast("App未能获取全部需要的相关权限，部分功能可能不能正常使用");
                         }
                         // 不管是否获取全部权限，进入主页面
-                        Observable.timer(2, TimeUnit.SECONDS)
-                                .subscribe(new Consumer<Long>() {
-                                    @Override
-                                    public void accept(Long aLong) throws Exception {
-                                        jumpNextPage();
-                                    }
-                                });
+                        jumpNextPage();
+//                        Observable.timer(2, TimeUnit.SECONDS)
+//                                .subscribe(new Consumer<Long>() {
+//                                    @Override
+//                                    public void accept(Long aLong) throws Exception {
+//                                        jumpNextPage();
+//                                    }
+//                                });
                     }
                 });
     }

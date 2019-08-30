@@ -10,7 +10,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatDelegate;
@@ -27,7 +26,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.zk.wanandroid.R;
-import com.zk.wanandroid.base.activity.BaseActivity;
+import com.zk.wanandroid.base.BasePresenter;
+import com.zk.wanandroid.base.activity.BaseMVPActivity;
 import com.zk.wanandroid.rxbus.RxBus;
 import com.zk.wanandroid.rxbus.Subscribe;
 import com.zk.wanandroid.rxbus.ThreadMode;
@@ -36,6 +36,8 @@ import com.zk.wanandroid.ui.home.HomeFragment;
 import com.zk.wanandroid.ui.hotsearch.CommonWebActivity;
 import com.zk.wanandroid.ui.hotsearch.SearchActivity;
 import com.zk.wanandroid.ui.knowledgesystem.KnowledgesystemFragment;
+import com.zk.wanandroid.ui.main.MainContract;
+import com.zk.wanandroid.ui.main.MainPresenter;
 import com.zk.wanandroid.ui.mine.LoginActivity;
 import com.zk.wanandroid.ui.mine.MyBookmarkActivity;
 import com.zk.wanandroid.ui.mine.MyCollectionActivity;
@@ -46,7 +48,6 @@ import com.zk.wanandroid.utils.ActivityUtils;
 import com.zk.wanandroid.utils.Constant;
 import com.zk.wanandroid.utils.NavigationUtils;
 import com.zk.wanandroid.utils.SpUtils;
-import com.zk.wanandroid.utils.SystemStatusManager;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,7 +57,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * @author: zhukai
  * @date: 2018/3/2
  */
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseMVPActivity<MainContract.MainPresenter, MainContract.IMainModel>
+        implements MainContract.IMainView, View.OnClickListener {
 
     @BindView(R.id.dl_root)
     DrawerLayout mDrawerLayout;
@@ -69,8 +71,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.fab_hot)
     FloatingActionButton mFloatingActionButton;
 
-    private CircleImageView civ_head;
-    private TextView tv_name;
+    private CircleImageView civHead;
+    private TextView tvName;
+    private TextView tvLevel;
+    private TextView tvPoint;
 
     private HomeFragment homefragment;
     private KnowledgesystemFragment knowledgesystemFragment;
@@ -112,6 +116,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         outState.putInt(SELECT_ITEM, mBottomNavigationView.getSelectedItemId());
     }
 
+    @NonNull
+    @Override
+    public BasePresenter initPresenter() {
+        return MainPresenter.newInstance();
+    }
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_main;
@@ -142,8 +152,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         });
         // 去除NavigationView中menu的滚动条
         NavigationUtils.disableNavigationViewScrollbars(mNavigationView);
-        tv_name = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.tv_name);
-        civ_head = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.civ_head);
+        tvName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.tv_name);
+        civHead = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.civ_head);
+        tvLevel = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.tv_level);
+        tvPoint = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.tv_point);
     }
 
     @Override
@@ -303,7 +315,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        civ_head.setOnClickListener(this);
+        civHead.setOnClickListener(this);
         mFloatingActionButton.setOnClickListener(this);
     }
 
@@ -452,21 +464,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         String username = SpUtils.getString(mContext, Constant.USER_NAME, "");
         if (TextUtils.isEmpty(username)) {
             // 未登录
-            tv_name.setText(getString(R.string.click_tologin));
-            civ_head.setImageResource(R.mipmap.icon_default_header);
-            civ_head.setEnabled(true);
+            tvName.setText(getString(R.string.click_tologin));
+            civHead.setImageResource(R.mipmap.icon_default_header);
+            civHead.setEnabled(true);
+            tvLevel.setVisibility(View.GONE);
+            tvPoint.setVisibility(View.GONE);
             mNavigationView.getMenu().getItem(1).setVisible(false); // 隐藏我的收藏
             mNavigationView.getMenu().getItem(2).setVisible(false); // 隐藏我的收藏
             mNavigationView.getMenu().getItem(3).setVisible(false); // 隐藏退出登录
         } else {
             // 已经登录
-            tv_name.setText(username);
-            civ_head.setImageResource(R.mipmap.icon_header);
-            civ_head.setEnabled(false);
+            tvName.setText(username);
+            civHead.setImageResource(R.mipmap.icon_header);
+            civHead.setEnabled(false);
             mNavigationView.getMenu().getItem(1).setVisible(true);
             mNavigationView.getMenu().getItem(2).setVisible(true);
             mNavigationView.getMenu().getItem(3).setVisible(true);
+            // 获取我的积分
+            mPresenter.getMyPoint();
         }
+    }
+
+    /**
+     * 设置我的积分
+     *
+     * @param point
+     */
+    @Override
+    public void setMyPoint(String point) {
+        tvLevel.setVisibility(View.VISIBLE);
+        int level = (int) Math.ceil(Double.parseDouble(point) / 100);
+        tvLevel.setText("LV" + level);
+        tvPoint.setVisibility(View.VISIBLE);
+        tvPoint.setText("积分：" + point);
     }
 
     /**

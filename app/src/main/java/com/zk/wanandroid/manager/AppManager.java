@@ -70,11 +70,13 @@ public class AppManager {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class<?> cls) {
+        Activity tempActivity = null;
         for (Activity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
+                tempActivity = activity;
             }
         }
+        finishActivity(tempActivity);
     }
 
     /**
@@ -95,10 +97,10 @@ public class AppManager {
     public void AppExit(Context context) {
         try {
             finishAllActivity();
-            ActivityManager activityMgr =
-                    (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            activityMgr.killBackgroundProcesses(context.getPackageName());
-            System.exit(0);
+//            ActivityManager activityMgr =
+//                    (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+//            activityMgr.killBackgroundProcesses(context.getPackageName());
+//            System.exit(0);
         } catch (Exception e) {
         }
     }
@@ -106,5 +108,4 @@ public class AppManager {
     public boolean isAppExit() {
         return activityStack == null || activityStack.isEmpty();
     }
-
 }

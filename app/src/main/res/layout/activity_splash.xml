@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.motion.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motion_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/motion_scene"
+    app:showPaths="false"
+    tools:context=".ui.SplashActivity">
+
+    <ImageView
+        android:id="@+id/iv_android_hero"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/ic_jetpack_hero"
+        tools:ignore="ContentDescription" />
+
+</android.support.constraint.motion.MotionLayout>
